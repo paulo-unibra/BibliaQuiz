@@ -1,4 +1,5 @@
 import { fetchFileJson, listFolderFiles } from '@/lib/driveApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     Animated,
@@ -74,6 +75,8 @@ export default function HomeScreen() {
   const [catalogLoading, setCatalogLoading] = useState(false);
   const [catalogError, setCatalogError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [lastScores, setLastScores] = useState<Record<string, number>>({});
+  const [currentQuizId, setCurrentQuizId] = useState<string | null>(null);
   const containerHeightRef = useRef(0);
   const aguaAltura = useRef(new Animated.Value(0)).current;
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
@@ -189,6 +192,16 @@ export default function HomeScreen() {
     setIndice(0);
   };
 
+  const refazerMesmoQuiz = () => {
+    animationRef.current?.stop();
+    setAcertos(0);
+    setErros(0);
+    setIndice(0);
+    lockedRef.current = false;
+    setPerguntas(prepareQuestions(basePerguntas));
+    setStage('quiz');
+  };
+
   // Catálogo: carrega quando nesse estágio
   useEffect(() => {
     let cancelled = false;
@@ -198,8 +211,23 @@ export default function HomeScreen() {
       setCatalogError(null);
       try {
         const items = await listFolderFiles();
-        console.log('Catalog items:', items);
         if (!cancelled) setCatalog(items);
+        // Carrega notas salvas para os itens
+        try {
+          const keys = items.map((it) => `@biblequiz:lastScore:${it.id}`);
+          const pairs = await AsyncStorage.multiGet(keys);
+          if (!cancelled) {
+            const map: Record<string, number> = {};
+            pairs.forEach(([key, value]: [string, string | null]) => {
+              if (key && value != null) {
+                const id = key.substring(key.lastIndexOf(':') + 1);
+                const num = Number(value);
+                if (!Number.isNaN(num)) map[id] = num;
+              }
+            });
+            setLastScores(map);
+          }
+        } catch {}
       } catch (e: any) {
         if (!cancelled) setCatalogError(e?.message || 'Falha ao carregar catálogo');
       } finally {
@@ -224,6 +252,20 @@ export default function HomeScreen() {
     try {
       const items = await listFolderFiles();
       setCatalog(items);
+      // Recarrega notas
+      try {
+        const keys = items.map((it) => `@biblequiz:lastScore:${it.id}`);
+        const pairs = await AsyncStorage.multiGet(keys);
+        const map: Record<string, number> = {};
+        pairs.forEach(([key, value]: [string, string | null]) => {
+          if (key && value != null) {
+            const id = key.substring(key.lastIndexOf(':') + 1);
+            const num = Number(value);
+            if (!Number.isNaN(num)) map[id] = num;
+          }
+        });
+        setLastScores(map);
+      } catch {}
     } catch (e: any) {
       setCatalogError(e?.message || 'Falha ao carregar catálogo');
     } finally {
@@ -240,6 +282,7 @@ export default function HomeScreen() {
           ? String(data.name)
           : (fallbackName && fallbackName.trim().length > 0 ? fallbackName : 'Bible Quiz')
       );
+      setCurrentQuizId(id);
       setBasePerguntas(Array.isArray(arr) ? arr : []);
       setPerguntas([]);
       setIndice(0);
@@ -250,6 +293,21 @@ export default function HomeScreen() {
       setCatalogError(e?.message || 'Não foi possível abrir o questionário');
     }
   };
+
+  // Ao chegar no resultado, persiste a última nota do questionário atual
+  useEffect(() => {
+    const save = async () => {
+      if (stage !== 'result') return;
+      if (!currentQuizId) return;
+      const valor = Number(nota.toFixed(1));
+      try {
+        await AsyncStorage.setItem(`@biblequiz:lastScore:${currentQuizId}`, String(valor));
+        setLastScores((prev) => ({ ...prev, [currentQuizId]: valor }));
+      } catch {}
+    };
+    save();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stage]);
 
   return (
     <SafeAreaView style={[
@@ -295,6 +353,11 @@ export default function HomeScreen() {
                     {(item as any).updatedAt ? (
                       <Text style={styles.infoTexto}>Atualizado em: {new Date((item as any).updatedAt as any).toLocaleString()}</Text>
                     ) : null}
+                    <Text style={styles.infoTexto}>
+                      {lastScores[item.id] != null
+                        ? `Última nota: ${lastScores[item.id].toFixed(1)} / 10`
+                        : 'Sem nota ainda'}
+                    </Text>
                   </Pressable>
                 ))}
                 {filteredCatalog.length === 0 && (
@@ -366,9 +429,14 @@ export default function HomeScreen() {
             <Text style={styles.resultLinha}>Nota: {nota.toFixed(1)} / 10</Text>
             <Text style={styles.resultLinha}>Acertos: {acertos}</Text>
             <Text style={styles.resultLinha}>Erros: {erros}</Text>
-            <Pressable onPress={reiniciar} style={[styles.botaoGrande, { marginTop: 24 }]} android_ripple={{ color: '#dbeafe' }}>
-              <Text style={styles.botaoGrandeTexto}>Reiniciar</Text>
-            </Pressable>
+            <View style={{ gap: 12, marginTop: 24, width: '100%', paddingHorizontal: 16 }}>
+              <Pressable onPress={refazerMesmoQuiz} style={styles.botaoGrande} android_ripple={{ color: '#dbeafe' }}>
+                <Text style={styles.botaoGrandeTexto}>Refazer</Text>
+              </Pressable>
+              <Pressable onPress={reiniciar} style={styles.botaoSecundario} android_ripple={{ color: '#e2e8f0' }}>
+                <Text style={styles.botaoSecundarioTexto}>Voltar para o início</Text>
+              </Pressable>
+            </View>
           </View>
         )}
       </View>
