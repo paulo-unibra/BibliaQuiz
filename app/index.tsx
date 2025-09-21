@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     Animated,
+    BackHandler,
     Easing,
     LayoutChangeEvent,
     Platform,
@@ -203,6 +204,38 @@ export default function HomeScreen() {
     setPerguntas(prepareQuestions(basePerguntas));
     setStage('quiz');
   };
+
+  // Back (Android): voltar para a tela anterior em vez de sair do app
+  const handleHardwareBack = useCallback(() => {
+    if (stage === 'catalog') return false; // deixa o SO fechar o app
+    if (stage === 'dashboard') {
+      setStage('catalog');
+      return true;
+    }
+    if (stage === 'start') {
+      setStage('catalog');
+      return true;
+    }
+    if (stage === 'quiz') {
+      animationRef.current?.stop();
+      lockedRef.current = false;
+      setIndice(0);
+      setAcertos(0);
+      setErros(0);
+      setStage('start');
+      return true;
+    }
+    if (stage === 'result') {
+      setStage('start');
+      return true;
+    }
+    return false;
+  }, [stage]);
+
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', handleHardwareBack);
+    return () => sub.remove();
+  }, [handleHardwareBack]);
 
   // Catálogo: carrega quando nesse estágio
   useEffect(() => {
@@ -491,7 +524,7 @@ export default function HomeScreen() {
               </View>
             )}
           </ScrollView>
-          <View style={[styles.bottomBar, { paddingBottom: 12 + insets.bottom }]}> 
+          <View style={[styles.bottomBar, { paddingBottom: insets.bottom - 30 }]}> 
             <View style={styles.bottomRow}>
               <Pressable onPress={recarregarCatalogo} style={[styles.botaoBottom, { flex: 1 }]} android_ripple={{ color: '#e2e8f0' }}>
                 <Text style={styles.botaoBottomTexto}>Recarregar</Text>
