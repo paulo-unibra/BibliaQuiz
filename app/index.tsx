@@ -25,6 +25,9 @@ type Pergunta = {
 
 type Stage = 'catalog' | 'start' | 'quiz' | 'result' | 'dashboard';
 
+// Duração do timer por questão (ms)
+const DURATION_MS = 20000;
+
 // Util: embaralhar array (Fisher-Yates)
 function shuffle<T>(input: T[]): T[] {
   const arr = [...input];
@@ -84,6 +87,8 @@ export default function HomeScreen() {
   const aguaAltura = useRef(new Animated.Value(0)).current;
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
   const lockedRef = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [tempoRestante, setTempoRestante] = useState<number>(DURATION_MS / 1000);
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
 
@@ -107,11 +112,26 @@ export default function HomeScreen() {
     animationRef.current?.stop();
     animationRef.current = Animated.timing(aguaAltura, {
       toValue: 0,
-      duration: 10000,
+      duration: DURATION_MS,
       easing: Easing.linear,
       useNativeDriver: false,
     });
     lockedRef.current = false;
+    // inicia contador regressivo em segundos
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setTempoRestante(DURATION_MS / 1000);
+    const end = Date.now() + DURATION_MS;
+    intervalRef.current = setInterval(() => {
+      const leftMs = end - Date.now();
+      const leftS = Math.ceil(leftMs / 1000);
+      setTempoRestante(leftS > 0 ? leftS : 0);
+      if (leftMs <= 0) {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+      }
+    }, 250);
     animationRef.current.start(({ finished }) => {
       if (finished) {
         if (stage === 'quiz' && !lockedRef.current) {
@@ -126,12 +146,22 @@ export default function HomeScreen() {
             return proximo;
           });
         }
+        // garante zerar o contador quando terminar
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        setTempoRestante(0);
       }
     });
   }, [aguaAltura, stage, perguntas.length]);
 
   const pararTimer = useCallback(() => {
     animationRef.current?.stop();
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
   }, []);
 
   const avancarPergunta = useCallback(() => {
@@ -150,7 +180,13 @@ export default function HomeScreen() {
       startTimer();
     }
     return () => {
-      if (stage !== 'quiz') animationRef.current?.stop();
+      if (stage !== 'quiz') {
+        animationRef.current?.stop();
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+      }
     };
   }, [indice, stage, startTimer]);
 
@@ -566,6 +602,12 @@ export default function HomeScreen() {
               </View>
             </View>
 
+            <View style={{ alignItems: 'center' }}>
+              <View style={[styles.pill, styles.pillTempo]}>
+                <Text style={styles.pillTexto}>Tempo: {tempoRestante}s</Text>
+              </View>
+            </View>
+
             <View style={styles.cardPergunta}>
               <Text style={styles.perguntaTexto}>{perguntaAtual?.pergunta}</Text>
             </View>
@@ -836,6 +878,7 @@ const styles = StyleSheet.create({
   pillAcerto: { backgroundColor: '#dcfce7' },
   pillErro: { backgroundColor: '#fee2e2' },
   pillTexto: { color: '#0f172a', fontWeight: '700' },
+  pillTempo: { backgroundColor: '#dbeafe' },
   cardPergunta: {
     backgroundColor: 'white',
     borderRadius: 12,
