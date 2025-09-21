@@ -1,16 +1,16 @@
+import { fetchFileJson, listFolderFiles } from '@/lib/driveApi';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Animated,
-  Easing,
-  LayoutChangeEvent,
-  Platform,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
+    Animated,
+    Easing,
+    LayoutChangeEvent,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
 } from 'react-native';
 
 type Pergunta = {
@@ -20,49 +20,58 @@ type Pergunta = {
   respostaCorreta: string;
 };
 
-const perguntasDefault: Pergunta[] = [
-  {
-    id: '1',
-    pergunta: 'Quem construiu a arca?',
-    alternativas: ['Moisés', 'Noé', 'Abraão', 'Davi'],
-    respostaCorreta: 'Noé',
-  },
-  {
-    id: '2',
-    pergunta: 'Em quantos dias Deus criou o mundo?',
-    alternativas: ['5', '6', '7', '10'],
-    respostaCorreta: '6',
-  },
-  {
-    id: '3',
-    pergunta: 'Qual o primeiro livro da Bíblia?',
-    alternativas: ['Êxodo', 'Salmos', 'Gênesis', 'Apocalipse'],
-    respostaCorreta: 'Gênesis',
-  },
-  {
-    id: '4',
-    pergunta: 'Quem foi lançado na cova dos leões?',
-    alternativas: ['Daniel', 'Elias', 'José', 'Jonas'],
-    respostaCorreta: 'Daniel',
-  },
-  {
-    id: '5',
-    pergunta: 'Jesus nasceu em qual cidade?',
-    alternativas: ['Jerusalém', 'Belém', 'Nazaré', 'Cafarnaum'],
-    respostaCorreta: 'Belém',
-  },
-];
+type Stage = 'catalog' | 'start' | 'quiz' | 'result';
 
-type Stage = 'upload' | 'start' | 'quiz' | 'result';
+// Util: embaralhar array (Fisher-Yates)
+function shuffle<T>(input: T[]): T[] {
+  const arr = [...input];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Remove sufixo .json (case-insensitive) para exibição
+const toDisplayName = (name: string) => name.replace(/\.json$/i, '');
+
+// Prepara perguntas embaralhando a ordem e também as alternativas,
+// balanceando a posição da resposta correta entre A/B/C/D para não concentrar.
+function prepareQuestions(base: Pergunta[]): Pergunta[] {
+  const qs = shuffle(base);
+  if (qs.length === 0) return qs;
+  const maxOptions = Math.max(...qs.map(q => q.alternativas?.length || 0)) || 4;
+
+  // Cria sequência de posições alvo (0..maxOptions-1) repetida e embaralhada
+  const seq: number[] = [];
+  for (let i = 0; i < qs.length; i++) seq.push(i % maxOptions);
+  const desiredPositions = shuffle(seq);
+
+  return qs.map((q, i) => {
+    const opts = shuffle(q.alternativas || []);
+    const L = Math.max(opts.length, 1);
+    const desired = desiredPositions[i] % L;
+    const correctIdx = opts.findIndex(a => a === q.respostaCorreta);
+    if (correctIdx >= 0 && correctIdx !== desired) {
+      const tmp = opts[desired];
+      opts[desired] = opts[correctIdx];
+      opts[correctIdx] = tmp;
+    }
+    return { ...q, alternativas: opts };
+  });
+}
 
 export default function HomeScreen() {
-  const [stage, setStage] = useState<Stage>('upload');
+  const [stage, setStage] = useState<Stage>('catalog');
   const [indice, setIndice] = useState(0);
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
-  const [perguntas, setPerguntas] = useState<Pergunta[]>(perguntasDefault);
-  const [jsonInput, setJsonInput] = useState('');
-  const [jsonError, setJsonError] = useState<string | null>(null);
+  const [perguntas, setPerguntas] = useState<Pergunta[]>([]);
+  const [basePerguntas, setBasePerguntas] = useState<Pergunta[]>([]);
+  const [questionarioNome, setQuestionarioNome] = useState<string>('Bible Quiz');
+  const [catalog, setCatalog] = useState<{ id: string; name: string; updatedAt?: string }[] | null>(null);
+  const [catalogLoading, setCatalogLoading] = useState(false);
+  const [catalogError, setCatalogError] = useState<string | null>(null);
   const containerHeightRef = useRef(0);
   const aguaAltura = useRef(new Animated.Value(0)).current;
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
@@ -70,59 +79,22 @@ export default function HomeScreen() {
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
 
-  const parseJsonPerguntas = useCallback((raw: string): { ok: true; value: Pergunta[] } | { ok: false; error: string } => {
-    let data: unknown;
-    try {
-      data = JSON.parse(raw);
-    } catch {
-      return { ok: false, error: 'JSON inválido. Verifique a sintaxe.' };
-    }
-    if (!Array.isArray(data)) return { ok: false, error: 'O JSON deve ser um array de perguntas.' };
-    const arr = data as any[];
-    const cast: Pergunta[] = [];
-    for (let i = 0; i < arr.length; i++) {
-      const item = arr[i];
-      if (
-        !item ||
-        typeof item.id !== 'string' ||
-        typeof item.pergunta !== 'string' ||
-        !Array.isArray(item.alternativas) ||
-        item.alternativas.some((a: any) => typeof a !== 'string') ||
-        typeof item.respostaCorreta !== 'string'
-      ) {
-        return { ok: false, error: `Item ${i + 1} está no formato incorreto.` };
-      }
-      // opcional: garantir que a resposta esteja nas alternativas
-      if (!item.alternativas.includes(item.respostaCorreta)) {
-        return { ok: false, error: `Item ${i + 1}: respostaCorreta não está nas alternativas.` };
-      }
-      cast.push({
-        id: item.id,
-        pergunta: item.pergunta,
-        alternativas: item.alternativas,
-        respostaCorreta: item.respostaCorreta,
-      });
-    }
-    if (cast.length === 0) return { ok: false, error: 'O array está vazio.' };
-    return { ok: true, value: cast };
-  }, []);
+  // N/A: upload JSON removido
 
   const startTimer = useCallback(() => {
     const H = containerHeightRef.current;
     if (!H) return;
-    // Reset to full height (água no topo) e anima até 0 em 10s
     aguaAltura.setValue(H);
     animationRef.current?.stop();
     animationRef.current = Animated.timing(aguaAltura, {
       toValue: 0,
       duration: 10000,
       easing: Easing.linear,
-      useNativeDriver: false, // animating height
+      useNativeDriver: false,
     });
     lockedRef.current = false;
     animationRef.current.start(({ finished }) => {
       if (finished) {
-        // Tempo acabou: conta como erro e avança
         if (stage === 'quiz' && !lockedRef.current) {
           lockedRef.current = true;
           setErros((e) => e + 1);
@@ -147,20 +119,17 @@ export default function HomeScreen() {
     setIndice((i) => {
       const proximo = i + 1;
       if (proximo >= perguntas.length) {
-        // Fim do quiz
         setStage('result');
-        return i; // mantém índice atual
+        return i;
       }
       return proximo;
     });
   }, [perguntas.length]);
 
-  // Reinicia timer a cada nova pergunta durante o quiz
   useEffect(() => {
     if (stage === 'quiz' && containerHeightRef.current > 0) {
       startTimer();
     }
-    // Parar timer quando sair do quiz
     return () => {
       if (stage !== 'quiz') animationRef.current?.stop();
     };
@@ -185,7 +154,6 @@ export default function HomeScreen() {
     const correta = perguntaAtual?.respostaCorreta === alt;
     if (correta) setAcertos((a) => a + 1);
     else setErros((e) => e + 1);
-    // breve intervalo para feedback visual futuro (se quiser)
     setTimeout(() => {
       avancarPergunta();
     }, 200);
@@ -195,124 +163,118 @@ export default function HomeScreen() {
     setAcertos(0);
     setErros(0);
     setIndice(0);
+    lockedRef.current = false;
+    setPerguntas(prepareQuestions(basePerguntas));
     setStage('quiz');
   };
 
   const reiniciar = () => {
     animationRef.current?.stop();
-    setStage('start');
+    setStage('catalog');
     setAcertos(0);
     setErros(0);
     setIndice(0);
   };
 
+  // Catálogo: carrega quando nesse estágio
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      if (stage !== 'catalog') return;
+      setCatalogLoading(true);
+      setCatalogError(null);
+      try {
+        const items = await listFolderFiles();
+        console.log('Catalog items:', items);
+        if (!cancelled) setCatalog(items);
+      } catch (e: any) {
+        if (!cancelled) setCatalogError(e?.message || 'Falha ao carregar catálogo');
+      } finally {
+        if (!cancelled) setCatalogLoading(false);
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [stage]);
+
+  const abrirQuestionario = async (id: string, fallbackName?: string) => {
+    try {
+      const data: any = await fetchFileJson(id);
+      const arr = Array.isArray(data) ? data : data?.perguntas || data?.questions;
+      setQuestionarioNome(
+        typeof data?.name === 'string' && data.name.trim().length > 0
+          ? String(data.name)
+          : (fallbackName && fallbackName.trim().length > 0 ? fallbackName : 'Bible Quiz')
+      );
+      setBasePerguntas(Array.isArray(arr) ? arr : []);
+      setPerguntas([]);
+      setIndice(0);
+      setAcertos(0);
+      setErros(0);
+      setStage('start');
+    } catch (e: any) {
+      setCatalogError(e?.message || 'Não foi possível abrir o questionário');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container} onLayout={onLayoutContainer}>
-        {/* Fundo: barra de água descendo */}
-        <Animated.View
-          pointerEvents="none"
-          style={[styles.agua, { height: aguaAltura }]}
-        />
+        <Animated.View pointerEvents="none" style={[styles.agua, { height: aguaAltura }]} />
 
-        {/* Conteúdo */}
-        {stage === 'upload' && (
+        {stage === 'catalog' && (
           <ScrollView contentContainerStyle={styles.uploadWrapper}>
-            <Text style={styles.titulo}>Carregar perguntas (JSON)</Text>
-            <Text style={styles.infoTexto}>
-              Cole abaixo um JSON no seguinte formato:
-            </Text>
-            <View style={styles.codeBox}>
-              <Text style={styles.codeText}>
-                {`[
-  {
-    "id": "1",
-    "pergunta": "Quem construiu a arca?",
-    "alternativas": ["Moisés", "Noé", "Abraão", "Davi"],
-    "respostaCorreta": "Noé"
-  }
-]`}
-              </Text>
-            </View>
-            <Text style={[styles.infoTexto, { marginTop: 8 }]}>
-              Requisitos:
-            </Text>
-            <Text style={styles.bullet}>• id: string</Text>
-            <Text style={styles.bullet}>• pergunta: string</Text>
-            <Text style={styles.bullet}>• alternativas: string[]</Text>
-            <Text style={styles.bullet}>• respostaCorreta: string (precisa estar em alternativas)</Text>
-
-            <TextInput
-              value={jsonInput}
-              onChangeText={setJsonInput}
-              placeholder="Cole o JSON aqui..."
-              multiline
-              numberOfLines={12}
-              style={styles.textArea}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            {jsonError ? <Text style={styles.errorText}>{jsonError}</Text> : null}
-
-            <View style={styles.uploadButtons}>
-              <Pressable
-                style={styles.botaoGrande}
-                onPress={() => {
-                  const res = parseJsonPerguntas(jsonInput.trim());
-                  if (!jsonInput.trim()) {
-                    setJsonError('Cole um JSON válido ou use o exemplo.');
-                    return;
-                  }
-                  if (res.ok) {
-                    setPerguntas(res.value);
-                    setJsonError(null);
-                    setStage('start');
-                  } else {
-                    setJsonError(res.error);
-                  }
-                }}
-                android_ripple={{ color: '#e0f2ff' }}
-              >
-                <Text style={styles.botaoGrandeTexto}>Carregar perguntas</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.botaoSecundario]}
-                onPress={() => {
-                  setPerguntas(perguntasDefault);
-                  setJsonError(null);
-                  setStage('start');
-                }}
-                android_ripple={{ color: '#e6eef5' }}
-              >
-                <Text style={styles.botaoSecundarioTexto}>Usar perguntas de exemplo</Text>
-              </Pressable>
-            </View>
-            <Text style={[styles.infoTexto, { marginTop: 12, textAlign: 'center' }]}>Perguntas carregadas: {perguntas.length}</Text>
+            <Text style={styles.titulo}>Catálogo de Questionários</Text>
+            {catalogLoading && <Text style={styles.infoTexto}>Carregando…</Text>}
+            {catalogError && <Text style={styles.errorText}>{catalogError}</Text>}
+            {!catalogLoading && !catalogError && (
+              <View style={{ gap: 8 }}>
+                {(catalog || []).map((item) => (
+                  <Pressable
+                    key={item.id}
+                    onPress={() => abrirQuestionario(item.id, toDisplayName(item.name))}
+                    style={({ pressed }) => [styles.cardPergunta, pressed && styles.altBotaoPressed]}
+                  >
+                    <Text style={styles.perguntaTexto}>{toDisplayName(item.name)}</Text>
+                    {(item as any).updatedAt ? (
+                      <Text style={styles.infoTexto}>Atualizado em: {new Date((item as any).updatedAt as any).toLocaleString()}</Text>
+                    ) : null}
+                  </Pressable>
+                ))}
+                {(catalog || []).length === 0 && (
+                  <Text style={styles.infoTexto}>Nenhum questionário encontrado.</Text>
+                )}
+              </View>
+            )}
+            <View style={{ height: 12 }} />
+            <Pressable onPress={() => setStage('catalog')} style={styles.botaoSecundario} android_ripple={{ color: '#e6eef5' }}>
+              <Text style={styles.botaoSecundarioTexto}>Recarregar</Text>
+            </Pressable>
           </ScrollView>
         )}
 
         {stage === 'start' && (
           <View style={styles.centerContent}>
-            <Text style={styles.titulo}>Bible Quiz</Text>
-            <Text style={[styles.infoTexto, { marginBottom: 8 }]}>Perguntas carregadas: {perguntas.length}</Text>
+            <Text style={styles.titulo}>{questionarioNome}</Text>
+            <Text style={[styles.infoTexto, { marginBottom: 8 }]}>Perguntas carregadas: {basePerguntas.length}</Text>
             <Pressable
               onPress={iniciarQuiz}
-              style={[styles.botaoGrande, perguntas.length === 0 && styles.botaoDesabilitado]}
-              disabled={perguntas.length === 0}
+              style={[styles.botaoGrande, basePerguntas.length === 0 && styles.botaoDesabilitado]}
+              disabled={basePerguntas.length === 0}
               android_ripple={{ color: '#e0f2ff' }}
             >
               <Text style={styles.botaoGrandeTexto}>Iniciar</Text>
             </Pressable>
-            <Pressable onPress={() => setStage('upload')} style={{ marginTop: 12, padding: 8 }}>
-              <Text style={{ color: '#0b4870', textDecorationLine: 'underline' }}>Carregar outras perguntas</Text>
+            <Pressable onPress={() => setStage('catalog')} style={{ marginTop: 12, padding: 8 }}>
+              <Text style={{ color: '#0b4870', textDecorationLine: 'underline' }}>Voltar ao catálogo</Text>
             </Pressable>
           </View>
         )}
 
         {stage === 'quiz' && (
           <View style={styles.quizWrapper}>
-            {/* Contadores */}
             <View style={styles.contadores}>
               <View style={[styles.pill, styles.pillAcerto]}>
                 <Text style={styles.pillTexto}>Acertos: {acertos}</Text>
@@ -322,12 +284,10 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            {/* Pergunta */}
             <View style={styles.cardPergunta}>
               <Text style={styles.perguntaTexto}>{perguntaAtual?.pergunta}</Text>
             </View>
 
-            {/* Alternativas */}
             <View style={styles.alternativas}>
               {perguntaAtual?.alternativas.map((alt) => (
                 <Pressable
@@ -372,7 +332,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#bde7ff', // azul claro
+    backgroundColor: '#bde7ff',
   },
   uploadWrapper: {
     padding: 16,
@@ -442,7 +402,7 @@ const styles = StyleSheet.create({
   uploadButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     gap: 12,
     marginTop: 12,
   },
