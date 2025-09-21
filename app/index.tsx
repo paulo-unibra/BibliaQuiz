@@ -7,13 +7,13 @@ import {
     LayoutChangeEvent,
     Platform,
     Pressable,
-    SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
     TextInput,
     View,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Pergunta = {
   id: string;
@@ -64,6 +64,7 @@ function prepareQuestions(base: Pergunta[]): Pergunta[] {
 }
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   const [stage, setStage] = useState<Stage>('catalog');
   const [indice, setIndice] = useState(0);
   const [acertos, setAcertos] = useState(0);
@@ -442,7 +443,7 @@ export default function HomeScreen() {
 
         {stage === 'catalog' && (
           <>
-          <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 }]}> 
+          <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 + insets.bottom }]}> 
             <Text style={styles.titulo}>Catálogo de Questionários</Text>
             <View style={styles.searchWrapper}>
               <TextInput
@@ -490,7 +491,7 @@ export default function HomeScreen() {
               </View>
             )}
           </ScrollView>
-          <View style={styles.bottomBar}>
+          <View style={[styles.bottomBar, { paddingBottom: 12 + insets.bottom }]}> 
             <View style={styles.bottomRow}>
               <Pressable onPress={recarregarCatalogo} style={[styles.botaoBottom, { flex: 1 }]} android_ripple={{ color: '#e2e8f0' }}>
                 <Text style={styles.botaoBottomTexto}>Recarregar</Text>
@@ -570,7 +571,7 @@ export default function HomeScreen() {
         )}
 
         {stage === 'dashboard' && (
-          <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 }]}> 
+          <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 + insets.bottom }]}> 
             <Text style={styles.titulo}>Dashboard</Text>
             <View style={styles.summaryRow}>
               <View style={styles.summaryCard}>

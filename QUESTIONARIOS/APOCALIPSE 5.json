@@ -1,0 +1,137 @@
+{
+  "name": "Apocalipse 5",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "O que João viu na destra do que estava assentado no trono (5.1)?",
+      "alternativas": [
+        "Um livro escrito por dentro e por fora, selado com sete selos",
+        "Uma coroa de ouro",
+        "Uma espada flamejante",
+        "Um rolo de pergaminho em branco"
+      ],
+      "respostaCorreta": "Um livro escrito por dentro e por fora, selado com sete selos"
+    },
+    {
+      "id": "2",
+      "pergunta": "Quem bradou 'Quem é digno de abrir o livro e de desatar os seus selos?' (5.2)?",
+      "alternativas": [
+        "Um anjo forte",
+        "Um dos quatro seres viventes",
+        "O apóstolo Pedro",
+        "O ancião mais velho"
+      ],
+      "respostaCorreta": "Um anjo forte"
+    },
+    {
+      "id": "3",
+      "pergunta": "Complete o versículo: 'Ninguém no _______, nem na _______, nem debaixo da ________, podia ________, nem olhar para ele.' (5.3)",
+      "alternativas": [
+        "céu / terra / terra / abrir o livro",
+        "trono / terra / mar / lê-lo",
+        "céu / mar / abismo / tocar nele",
+        "santuário / mundo / oceano / desatar os selos"
+      ],
+      "respostaCorreta": "céu / terra / terra / abrir o livro"
+    },
+    {
+      "id": "4",
+      "pergunta": "Qual foi a reação de João ao se deparar com a situação do capítulo 5.3 (5.4)?",
+      "alternativas": [
+        "Chorava muito",
+        "Gritou de alegria",
+        "Ficou em silêncio",
+        "Caiu em sono profundo"
+      ],
+      "respostaCorreta": "Chorava muito"
+    },
+    {
+      "id": "5",
+      "pergunta": "Quem disse a João que um cordeiro podia abrir o livro? (5.5)",
+      "alternativas": [
+        "Um dos anciãos",
+        "Um anjo forte",
+        "O próprio Jesus",
+        "Um dos quatro seres viventes"
+      ],
+      "respostaCorreta": "Um dos anciãos"
+    },
+    {
+      "id": "6",
+      "pergunta": "Onde o cordeiro apareceu? (5.6)",
+      "alternativas": [
+        "No meio do trono e dos quatro seres viventes e entre os anciãos",
+        "À direita do Pai",
+        "Diante do mar de vidro",
+        "No altar de incenso"
+      ],
+      "respostaCorreta": "No meio do trono e dos quatro seres viventes e entre os anciãos"
+    },
+    {
+      "id": "7",
+      "pergunta": "Quantos chifres tinha o cordeiro? (5.6)",
+      "alternativas": [
+        "Sete",
+        "Doze",
+        "Quatro",
+        "Dez"
+      ],
+      "respostaCorreta": "Sete"
+    },
+    {
+      "id": "8",
+      "pergunta": "O que havia nas mãos dos anciãos? (5.8)",
+      "alternativas": [
+        "Harpas e salvas de ouro cheias de incenso",
+        "Coroas de prata e cajados",
+        "Trombetas de ouro",
+        "Pandeiros e cítaras"
+      ],
+      "respostaCorreta": "Harpas e salvas de ouro cheias de incenso"
+    },
+    {
+      "id": "9",
+      "pergunta": "O que representam as salvas de ouro cheias de incenso que João viu? (5.8)",
+      "alternativas": [
+        "As orações dos santos",
+        "O Espírito Santo",
+        "As lágrimas dos mártires",
+        "As bênçãos de Abraão"
+      ],
+      "respostaCorreta": "As orações dos santos"
+    },
+    {
+      "id": "10",
+      "pergunta": "No fim do capítulo 5, qual a palavra que os 4 animais diziam?",
+      "alternativas": [
+        "Amém",
+        "Aleluia",
+        "Santo",
+        "Hosana"
+      ],
+      "respostaCorreta": "Amém"
+    },
+    {
+      "id": "11",
+      "pergunta": "Qual foi a atitude dos anciãos no capítulo 5.14?",
+      "alternativas": [
+        "Prostraram-se e adoraram",
+        "Cantaram hinos",
+        "Acenderam incenso",
+        "Ergueram as coroas"
+      ],
+      "respostaCorreta": "Prostraram-se e adoraram"
+    },
+    {
+      "id": "12",
+      "pergunta": "Marque a alternativa que corresponde a tudo que Jesus é digno de receber, segundo a fala dos anjos no capítulo 5.12:",
+      "alternativas": [
+        "Poder, riquezas, sabedoria, força, honra, glória e ações de graças",
+        "Amor, paz, saúde, alegria, vitória",
+        "Sabedoria, justiça, compaixão, perdão",
+        "Coragem, esperança, fidelidade, bondade"
+      ],
+      "respostaCorreta": "Poder, riquezas, sabedoria, força, honra, glória e ações de graças"
+    }
+  ]
+}
