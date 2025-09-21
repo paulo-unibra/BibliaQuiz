@@ -10,6 +10,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TextInput,
     View,
 } from 'react-native';
 
@@ -72,12 +73,24 @@ export default function HomeScreen() {
   const [catalog, setCatalog] = useState<{ id: string; name: string; updatedAt?: string }[] | null>(null);
   const [catalogLoading, setCatalogLoading] = useState(false);
   const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
   const containerHeightRef = useRef(0);
   const aguaAltura = useRef(new Animated.Value(0)).current;
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
   const lockedRef = useRef(false);
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
+
+  // Nota (0 a 10) e aprovação no resultado
+  const totalPerguntas = useMemo(
+    () => (basePerguntas.length > 0 ? basePerguntas.length : perguntas.length),
+    [basePerguntas.length, perguntas.length]
+  );
+  const nota = useMemo(
+    () => (totalPerguntas > 0 ? (acertos / totalPerguntas) * 10 : 0),
+    [acertos, totalPerguntas]
+  );
+  const aprovado = nota >= 6;
 
   // N/A: upload JSON removido
 
@@ -199,6 +212,25 @@ export default function HomeScreen() {
     };
   }, [stage]);
 
+  const filteredCatalog = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return catalog || [];
+    return (catalog || []).filter((c) => toDisplayName(c.name).toLowerCase().includes(term));
+  }, [catalog, search]);
+
+  const recarregarCatalogo = useCallback(async () => {
+    setCatalogLoading(true);
+    setCatalogError(null);
+    try {
+      const items = await listFolderFiles();
+      setCatalog(items);
+    } catch (e: any) {
+      setCatalogError(e?.message || 'Falha ao carregar catálogo');
+    } finally {
+      setCatalogLoading(false);
+    }
+  }, []);
+
   const abrirQuestionario = async (id: string, fallbackName?: string) => {
     try {
       const data: any = await fetchFileJson(id);
@@ -220,18 +252,40 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.container} onLayout={onLayoutContainer}>
-        <Animated.View pointerEvents="none" style={[styles.agua, { height: aguaAltura }]} />
+    <SafeAreaView style={[
+      styles.safe,
+      stage === 'result' && (aprovado ? styles.bgAprovado : styles.bgReprovado),
+    ]}>
+      <View
+        style={[
+          styles.container,
+          stage === 'result' && (aprovado ? styles.bgAprovado : styles.bgReprovado),
+        ]}
+        onLayout={onLayoutContainer}
+      >
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.agua, { height: stage === 'quiz' ? aguaAltura : 0 }]}
+        />
 
         {stage === 'catalog' && (
-          <ScrollView contentContainerStyle={styles.uploadWrapper}>
+          <>
+          <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 }]}> 
             <Text style={styles.titulo}>Catálogo de Questionários</Text>
+            <View style={styles.searchWrapper}>
+              <TextInput
+                placeholder="Buscar questionário..."
+                placeholderTextColor="#94a3b8"
+                value={search}
+                onChangeText={setSearch}
+                style={styles.searchInput}
+              />
+            </View>
             {catalogLoading && <Text style={styles.infoTexto}>Carregando…</Text>}
             {catalogError && <Text style={styles.errorText}>{catalogError}</Text>}
             {!catalogLoading && !catalogError && (
               <View style={{ gap: 8 }}>
-                {(catalog || []).map((item) => (
+                {filteredCatalog.map((item) => (
                   <Pressable
                     key={item.id}
                     onPress={() => abrirQuestionario(item.id, toDisplayName(item.name))}
@@ -243,16 +297,18 @@ export default function HomeScreen() {
                     ) : null}
                   </Pressable>
                 ))}
-                {(catalog || []).length === 0 && (
+                {filteredCatalog.length === 0 && (
                   <Text style={styles.infoTexto}>Nenhum questionário encontrado.</Text>
                 )}
               </View>
             )}
-            <View style={{ height: 12 }} />
-            <Pressable onPress={() => setStage('catalog')} style={styles.botaoSecundario} android_ripple={{ color: '#e6eef5' }}>
-              <Text style={styles.botaoSecundarioTexto}>Recarregar</Text>
-            </Pressable>
           </ScrollView>
+          <View style={styles.bottomBar}>
+            <Pressable onPress={recarregarCatalogo} style={styles.botaoBottom} android_ripple={{ color: '#e2e8f0' }}>
+              <Text style={styles.botaoBottomTexto}>Recarregar</Text>
+            </Pressable>
+          </View>
+          </>
         )}
 
         {stage === 'start' && (
@@ -263,12 +319,12 @@ export default function HomeScreen() {
               onPress={iniciarQuiz}
               style={[styles.botaoGrande, basePerguntas.length === 0 && styles.botaoDesabilitado]}
               disabled={basePerguntas.length === 0}
-              android_ripple={{ color: '#e0f2ff' }}
+              android_ripple={{ color: '#dbeafe' }}
             >
               <Text style={styles.botaoGrandeTexto}>Iniciar</Text>
             </Pressable>
             <Pressable onPress={() => setStage('catalog')} style={{ marginTop: 12, padding: 8 }}>
-              <Text style={{ color: '#0b4870', textDecorationLine: 'underline' }}>Voltar ao catálogo</Text>
+              <Text style={{ color: '#2563eb', textDecorationLine: 'underline' }}>Voltar ao catálogo</Text>
             </Pressable>
           </View>
         )}
@@ -294,7 +350,7 @@ export default function HomeScreen() {
                   key={alt}
                   style={({ pressed }) => [styles.altBotao, pressed && styles.altBotaoPressed]}
                   onPress={() => selecionarAlternativa(alt)}
-                  android_ripple={{ color: '#d7eefe' }}
+                  android_ripple={{ color: '#dbeafe' }}
                 >
                   <Text style={styles.altTexto}>{alt}</Text>
                 </Pressable>
@@ -305,10 +361,12 @@ export default function HomeScreen() {
 
         {stage === 'result' && (
           <View style={styles.centerContent}>
-            <Text style={styles.titulo}>Resultado</Text>
+            <Text style={styles.emoji}>{aprovado ? '😀' : '😞'}</Text>
+            <Text style={styles.titulo}>{aprovado ? 'Parabéns!' : 'Continue tentando'}</Text>
+            <Text style={styles.resultLinha}>Nota: {nota.toFixed(1)} / 10</Text>
             <Text style={styles.resultLinha}>Acertos: {acertos}</Text>
             <Text style={styles.resultLinha}>Erros: {erros}</Text>
-            <Pressable onPress={reiniciar} style={[styles.botaoGrande, { marginTop: 24 }]} android_ripple={{ color: '#e0f2ff' }}>
+            <Pressable onPress={reiniciar} style={[styles.botaoGrande, { marginTop: 24 }]} android_ripple={{ color: '#dbeafe' }}>
               <Text style={styles.botaoGrandeTexto}>Reiniciar</Text>
             </Pressable>
           </View>
@@ -319,10 +377,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#f6fbff' },
+  safe: { flex: 1, backgroundColor: '#f8fafc' },
+  bgAprovado: { backgroundColor: '#ecfdf5' }, // verde claro
+  bgReprovado: { backgroundColor: '#fef2f2' }, // vermelho claro
   container: {
     flex: 1,
-    backgroundColor: '#f6fbff',
+    backgroundColor: '#f8fafc',
     position: 'relative',
     overflow: 'hidden',
     paddingHorizontal: 16,
@@ -332,10 +392,23 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#bde7ff',
+    backgroundColor: '#bfdbfe',
   },
   uploadWrapper: {
     padding: 16,
+  },
+  searchWrapper: {
+    marginBottom: 12,
+  },
+  searchInput: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    color: '#0f172a',
+    fontSize: 16,
   },
   centerContent: {
     flex: 1,
@@ -346,21 +419,21 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '700',
     marginBottom: 24,
-    color: '#0b4870',
+    color: '#0f172a',
     textAlign: 'center',
   },
   infoTexto: {
-    color: '#0b4870',
+    color: '#334155',
     fontSize: 14,
   },
   bullet: {
-    color: '#0b4870',
+    color: '#334155',
     fontSize: 14,
     marginLeft: 8,
     marginTop: 2,
   },
   codeBox: {
-    backgroundColor: '#0b4870',
+    backgroundColor: '#0ea5e9',
     borderRadius: 10,
     padding: 12,
     marginTop: 8,
@@ -371,11 +444,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   botaoGrande: {
-    backgroundColor: '#3ba9ff',
+    backgroundColor: '#2563eb',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 12,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
   },
   botaoDesabilitado: {
     opacity: 0.5,
@@ -387,15 +464,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   botaoSecundario: {
-    backgroundColor: '#e9f3fb',
+    backgroundColor: '#eef2f7',
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#d9ecfb',
+    borderColor: '#e2e8f0',
   },
   botaoSecundarioTexto: {
-    color: '#0b4870',
+    color: '#0f172a',
     fontSize: 16,
     fontWeight: '700',
   },
@@ -414,13 +491,13 @@ const styles = StyleSheet.create({
     minHeight: 180,
     textAlignVertical: 'top',
     borderWidth: 1,
-    borderColor: '#d9ecfb',
+    borderColor: '#e2e8f0',
     fontFamily: Platform.select({ ios: 'Courier', android: 'monospace', default: 'monospace' }),
     fontSize: 13,
-    color: '#0b4870',
+    color: '#0f172a',
   },
   errorText: {
-    color: '#b10a0a',
+    color: '#991b1b',
     marginTop: 6,
   },
   quizWrapper: {
@@ -441,9 +518,9 @@ const styles = StyleSheet.create({
     minWidth: 120,
     alignItems: 'center',
   },
-  pillAcerto: { backgroundColor: '#d9fbe5' },
-  pillErro: { backgroundColor: '#ffe1e1' },
-  pillTexto: { color: '#053b63', fontWeight: '700' },
+  pillAcerto: { backgroundColor: '#dcfce7' },
+  pillErro: { backgroundColor: '#fee2e2' },
+  pillTexto: { color: '#0f172a', fontWeight: '700' },
   cardPergunta: {
     backgroundColor: 'white',
     borderRadius: 12,
@@ -452,11 +529,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 2,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
   },
   perguntaTexto: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#073e6b',
+    color: '#0f172a',
   },
   alternativas: {
     gap: 12,
@@ -469,20 +548,47 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 14,
     borderWidth: 1,
-    borderColor: '#d9ecfb',
+    borderColor: '#e2e8f0',
   },
   altBotaoPressed: {
-    backgroundColor: '#eef7ff',
+    backgroundColor: '#eff6ff',
   },
   altTexto: {
     fontSize: 18,
-    color: '#094a7a',
+    color: '#0f172a',
     fontWeight: '600',
     textAlign: 'center',
   },
   resultLinha: {
     fontSize: 18,
-    color: '#0b4870',
+    color: '#334155',
     marginTop: 6,
+  },
+  emoji: {
+    fontSize: 64,
+    marginBottom: 8,
+  },
+  bottomBar: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: 12,
+    backgroundColor: '#f8fafc',
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+  },
+  botaoBottom: {
+    backgroundColor: '#2563eb',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  botaoBottomTexto: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
 });
