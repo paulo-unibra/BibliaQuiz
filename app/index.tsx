@@ -22,7 +22,7 @@ type Pergunta = {
   respostaCorreta: string;
 };
 
-type Stage = 'catalog' | 'start' | 'quiz' | 'result';
+type Stage = 'catalog' | 'start' | 'quiz' | 'result' | 'dashboard';
 
 // Util: embaralhar array (Fisher-Yates)
 function shuffle<T>(input: T[]): T[] {
@@ -255,6 +255,100 @@ export default function HomeScreen() {
     return (catalog || []).filter((c) => toDisplayName(c.name).toLowerCase().includes(term));
   }, [catalog, search]);
 
+  // Estatísticas para o Dashboard
+  const {
+    totalQuizzes,
+    attemptedCount,
+    overallAvgAll,
+    overallAvgAttempted,
+    passRate,
+    bestScore,
+    worstScore,
+    barsData,
+    histoBins,
+  } = useMemo<{
+    totalQuizzes: number;
+    attemptedCount: number;
+    overallAvgAll: number;
+    overallAvgAttempted: number;
+    passRate: number;
+    bestScore: number | null;
+    worstScore: number | null;
+    barsData: { id: string; name: string; score: number | null }[];
+    histoBins: number[];
+  }>(() => {
+    const items = catalog || [];
+    const total = items.length;
+    const scoresEntries = Object.entries(lastScores);
+    const attempted = scoresEntries.length;
+    let sumAll = 0;
+    let sumAttempted = 0;
+    let maxScore: number | null = null;
+    let minScore: number | null = null;
+    let approved = 0;
+    const mapScores: Record<string, number> = lastScores;
+
+    // Soma considerando todos os questionários do catálogo (faltantes contam como 0)
+    items.forEach((it) => {
+      const s = mapScores[it.id];
+      if (typeof s === 'number') {
+        sumAll += s;
+      } else {
+        sumAll += 0;
+      }
+    });
+
+    // Soma apenas dos respondidos
+    scoresEntries.forEach(([, s]) => {
+      if (typeof s === 'number') {
+        sumAttempted += s;
+        if (maxScore == null || s > maxScore) maxScore = s;
+        if (minScore == null || s < minScore) minScore = s;
+        if (s >= 6) approved += 1;
+      }
+    });
+
+    const overallAll = total > 0 ? sumAll / total : 0;
+    const overallAtt = attempted > 0 ? sumAttempted / attempted : 0;
+    const pass = attempted > 0 ? (approved / attempted) * 100 : 0;
+
+    // Dados para gráfico de barras por questionário (última nota)
+    const bars = items.map((it) => {
+      const s = mapScores[it.id];
+      return {
+        id: it.id,
+        name: toDisplayName(it.name),
+        score: typeof s === 'number' ? s : null,
+      };
+    });
+
+    // Histograma simples: faixas 0-2, 2-4, 4-6, 6-8, 8-10
+    const bins = [0, 0, 0, 0, 0];
+    bars.forEach((b) => {
+      if (b.score == null) return;
+      const s = b.score;
+      let idx = 0;
+      if (s < 2) idx = 0;
+      else if (s < 4) idx = 1;
+      else if (s < 6) idx = 2;
+      else if (s < 8) idx = 3;
+      else idx = 4;
+      bins[idx] += 1;
+    });
+
+    return {
+      totalQuizzes: total,
+      attemptedCount: attempted,
+      overallAvgAll: overallAll,
+      overallAvgAttempted: overallAtt,
+      passRate: pass,
+      bestScore: maxScore,
+      worstScore: minScore,
+      barsData: bars,
+      histoBins: bins,
+    };
+  }, [catalog, lastScores]);
+
   const recarregarCatalogo = useCallback(async () => {
     setCatalogLoading(true);
     setCatalogError(null);
@@ -397,9 +491,14 @@ export default function HomeScreen() {
             )}
           </ScrollView>
           <View style={styles.bottomBar}>
-            <Pressable onPress={recarregarCatalogo} style={styles.botaoBottom} android_ripple={{ color: '#e2e8f0' }}>
-              <Text style={styles.botaoBottomTexto}>Recarregar</Text>
-            </Pressable>
+            <View style={styles.bottomRow}>
+              <Pressable onPress={recarregarCatalogo} style={[styles.botaoBottom, { flex: 1 }]} android_ripple={{ color: '#e2e8f0' }}>
+                <Text style={styles.botaoBottomTexto}>Recarregar</Text>
+              </Pressable>
+              <Pressable onPress={() => setStage('dashboard')} style={[styles.botaoBottomSec, { flex: 1 }]} android_ripple={{ color: '#e2e8f0' }}>
+                <Text style={styles.botaoBottomSecTexto}>Dashboard</Text>
+              </Pressable>
+            </View>
           </View>
           </>
         )}
@@ -468,6 +567,90 @@ export default function HomeScreen() {
               </Pressable>
             </View>
           </View>
+        )}
+
+        {stage === 'dashboard' && (
+          <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 }]}> 
+            <Text style={styles.titulo}>Dashboard</Text>
+            <View style={styles.summaryRow}>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Questionários</Text>
+                <Text style={styles.summaryValue}>{totalQuizzes}</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Respondidos</Text>
+                <Text style={styles.summaryValue}>{attemptedCount}</Text>
+              </View>
+            </View>
+            <View style={styles.summaryRow}>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Média geral</Text>
+                <Text style={styles.summaryValue}>{overallAvgAll.toFixed(1)}</Text>
+                <Text style={styles.summaryHint}>Soma das últimas notas / total de questionários</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Média (respondidos)</Text>
+                <Text style={styles.summaryValue}>{overallAvgAttempted.toFixed(1)}</Text>
+                <Text style={styles.summaryHint}>Apenas questionários com nota</Text>
+              </View>
+            </View>
+            <View style={styles.summaryRow}>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Aprovação</Text>
+                <Text style={styles.summaryValue}>{passRate.toFixed(0)}%</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Melhor / Pior</Text>
+                <Text style={styles.summaryValue}>
+                  {bestScore != null ? bestScore.toFixed(1) : '--'} / {worstScore != null ? worstScore.toFixed(1) : '--'}
+                </Text>
+              </View>
+            </View>
+
+            <Text style={[styles.titulo, { fontSize: 24, marginTop: 8 }]}>Média por questionário</Text>
+            <View style={{ gap: 10 }}>
+              {barsData.map((b) => {
+                const pct = b.score != null ? Math.max(0, Math.min(100, (b.score / 10) * 100)) : 0;
+                const fillColor = b.score == null ? '#cbd5e1' : b.score >= 6 ? '#22c55e' : '#ef4444';
+                return (
+                  <View key={b.id} style={styles.barRow}>
+                    <Text style={styles.barLabel} numberOfLines={1}>
+                      {b.name}
+                    </Text>
+                    <View style={styles.barBg}>
+                      <View style={[styles.barFill, { width: `${pct}%`, backgroundColor: fillColor }]} />
+                    </View>
+                    <Text style={styles.barValue}>{b.score != null ? b.score.toFixed(1) : '--'}</Text>
+                  </View>
+                );
+              })}
+              {barsData.length === 0 && (
+                <Text style={styles.infoTexto}>Sem dados para exibir.</Text>
+              )}
+            </View>
+
+            <Text style={[styles.titulo, { fontSize: 24, marginTop: 16 }]}>Distribuição de notas</Text>
+            <View style={styles.histoWrap}>
+              {histoBins.map((count, idx) => {
+                const max = Math.max(1, ...histoBins);
+                const h = (count / max) * 100;
+                const label = idx === 0 ? '0-2' : idx === 1 ? '2-4' : idx === 2 ? '4-6' : idx === 3 ? '6-8' : '8-10';
+                const color = idx < 2 ? '#ef4444' : idx === 2 ? '#f59e0b' : '#22c55e';
+                return (
+                  <View key={idx} style={styles.histoCol}>
+                    <View style={[styles.histoBar, { height: `${h}%`, backgroundColor: color }]} />
+                    <Text style={styles.histoLabel}>{label}</Text>
+                    <Text style={styles.histoCount}>{count}</Text>
+                  </View>
+                );
+              })}
+            </View>
+
+            <View style={{ height: 8 }} />
+            <Pressable onPress={() => setStage('catalog')} style={[styles.botaoSecundario, { marginTop: 12 }]} android_ripple={{ color: '#e2e8f0' }}>
+              <Text style={styles.botaoSecundarioTexto}>Voltar ao catálogo</Text>
+            </Pressable>
+          </ScrollView>
         )}
       </View>
     </SafeAreaView>
@@ -688,6 +871,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#e2e8f0',
   },
+  bottomRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
   botaoBottom: {
     backgroundColor: '#2563eb',
     paddingVertical: 14,
@@ -700,5 +887,103 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.3,
+  },
+  botaoBottomSec: {
+    backgroundColor: '#eef2f7',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  botaoBottomSecTexto: {
+    color: '#0f172a',
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+  // Dashboard styles
+  summaryRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 12,
+  },
+  summaryCard: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  summaryLabel: {
+    color: '#64748b',
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  summaryValue: {
+    color: '#0f172a',
+    fontSize: 24,
+    fontWeight: '800',
+  },
+  summaryHint: {
+    color: '#64748b',
+    fontSize: 11,
+    marginTop: 4,
+  },
+  barRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  barLabel: {
+    flex: 1,
+    color: '#0f172a',
+    fontSize: 14,
+  },
+  barBg: {
+    flex: 2,
+    height: 12,
+    backgroundColor: '#e2e8f0',
+    borderRadius: 999,
+    overflow: 'hidden',
+  },
+  barFill: {
+    height: '100%',
+    borderRadius: 999,
+  },
+  barValue: {
+    width: 44,
+    textAlign: 'right',
+    color: '#334155',
+    fontVariant: ['tabular-nums'],
+  },
+  histoWrap: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    gap: 8,
+    height: 140,
+    paddingHorizontal: 8,
+  },
+  histoCol: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+  histoBar: {
+    width: '80%',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
+  histoLabel: {
+    marginTop: 4,
+    color: '#64748b',
+    fontSize: 11,
+  },
+  histoCount: {
+    color: '#334155',
+    fontSize: 12,
   },
 });
