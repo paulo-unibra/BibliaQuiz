@@ -76,6 +76,7 @@ export default function HomeScreen() {
   const [catalogError, setCatalogError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [lastScores, setLastScores] = useState<Record<string, number>>({});
+  const [lastDates, setLastDates] = useState<Record<string, number>>({});
   const [currentQuizId, setCurrentQuizId] = useState<string | null>(null);
   const containerHeightRef = useRef(0);
   const aguaAltura = useRef(new Animated.Value(0)).current;
@@ -214,18 +215,26 @@ export default function HomeScreen() {
         if (!cancelled) setCatalog(items);
         // Carrega notas salvas para os itens
         try {
-          const keys = items.map((it) => `@biblequiz:lastScore:${it.id}`);
-          const pairs = await AsyncStorage.multiGet(keys);
+          const scoreKeys = items.map((it) => `@biblequiz:lastScore:${it.id}`);
+          const dateKeys = items.map((it) => `@biblequiz:lastDate:${it.id}`);
+          const pairs = await AsyncStorage.multiGet([...scoreKeys, ...dateKeys]);
           if (!cancelled) {
             const map: Record<string, number> = {};
+            const dateMap: Record<string, number> = {};
             pairs.forEach(([key, value]: [string, string | null]) => {
               if (key && value != null) {
                 const id = key.substring(key.lastIndexOf(':') + 1);
-                const num = Number(value);
-                if (!Number.isNaN(num)) map[id] = num;
+                if (key.includes(':lastScore:')) {
+                  const num = Number(value);
+                  if (!Number.isNaN(num)) map[id] = num;
+                } else if (key.includes(':lastDate:')) {
+                  const ts = Number(value);
+                  if (!Number.isNaN(ts)) dateMap[id] = ts;
+                }
               }
             });
             setLastScores(map);
+            setLastDates(dateMap);
           }
         } catch {}
       } catch (e: any) {
@@ -254,17 +263,25 @@ export default function HomeScreen() {
       setCatalog(items);
       // Recarrega notas
       try {
-        const keys = items.map((it) => `@biblequiz:lastScore:${it.id}`);
-        const pairs = await AsyncStorage.multiGet(keys);
+        const scoreKeys = items.map((it) => `@biblequiz:lastScore:${it.id}`);
+        const dateKeys = items.map((it) => `@biblequiz:lastDate:${it.id}`);
+        const pairs = await AsyncStorage.multiGet([...scoreKeys, ...dateKeys]);
         const map: Record<string, number> = {};
+        const dateMap: Record<string, number> = {};
         pairs.forEach(([key, value]: [string, string | null]) => {
           if (key && value != null) {
             const id = key.substring(key.lastIndexOf(':') + 1);
-            const num = Number(value);
-            if (!Number.isNaN(num)) map[id] = num;
+            if (key.includes(':lastScore:')) {
+              const num = Number(value);
+              if (!Number.isNaN(num)) map[id] = num;
+            } else if (key.includes(':lastDate:')) {
+              const ts = Number(value);
+              if (!Number.isNaN(ts)) dateMap[id] = ts;
+            }
           }
         });
         setLastScores(map);
+        setLastDates(dateMap);
       } catch {}
     } catch (e: any) {
       setCatalogError(e?.message || 'Falha ao carregar catálogo');
@@ -302,7 +319,10 @@ export default function HomeScreen() {
       const valor = Number(nota.toFixed(1));
       try {
         await AsyncStorage.setItem(`@biblequiz:lastScore:${currentQuizId}`, String(valor));
+        const now = Date.now();
+        await AsyncStorage.setItem(`@biblequiz:lastDate:${currentQuizId}`, String(now));
         setLastScores((prev) => ({ ...prev, [currentQuizId]: valor }));
+        setLastDates((prev) => ({ ...prev, [currentQuizId]: now }));
       } catch {}
     };
     save();
@@ -343,23 +363,33 @@ export default function HomeScreen() {
             {catalogError && <Text style={styles.errorText}>{catalogError}</Text>}
             {!catalogLoading && !catalogError && (
               <View style={{ gap: 8 }}>
-                {filteredCatalog.map((item) => (
+                {filteredCatalog.map((item) => {
+                  const score = lastScores[item.id];
+                  const lastTs = lastDates[item.id];
+                  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+                  const showWeekMsg = typeof lastTs === 'number' && Date.now() - lastTs > ONE_WEEK;
+                  const cardTone = typeof score === 'number' ? (score < 6 ? styles.cardFalha : styles.cardAprovado) : null;
+                  return (
                   <Pressable
                     key={item.id}
                     onPress={() => abrirQuestionario(item.id, toDisplayName(item.name))}
-                    style={({ pressed }) => [styles.cardPergunta, pressed && styles.altBotaoPressed]}
+                    style={({ pressed }) => [styles.cardPergunta, cardTone, pressed && styles.altBotaoPressed]}
                   >
                     <Text style={styles.perguntaTexto}>{toDisplayName(item.name)}</Text>
                     {(item as any).updatedAt ? (
                       <Text style={styles.infoTexto}>Atualizado em: {new Date((item as any).updatedAt as any).toLocaleString()}</Text>
                     ) : null}
                     <Text style={styles.infoTexto}>
-                      {lastScores[item.id] != null
-                        ? `Última nota: ${lastScores[item.id].toFixed(1)} / 10`
-                        : 'Sem nota ainda'}
+                      {score != null ? `Última nota: ${score.toFixed(1)} / 10` : 'Sem nota ainda'}
                     </Text>
+                    {lastTs != null && (
+                      <Text style={styles.infoTexto}>Última vez: {new Date(lastTs).toLocaleDateString()}</Text>
+                    )}
+                    {showWeekMsg && (
+                      <Text style={styles.dicaTexto}>💡 Já faz mais de 1 semana que você fez esse questionário. Vamos revisar?</Text>
+                    )}
                   </Pressable>
-                ))}
+                );})}
                 {filteredCatalog.length === 0 && (
                   <Text style={styles.infoTexto}>Nenhum questionário encontrado.</Text>
                 )}
@@ -600,6 +630,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e2e8f0',
   },
+  cardFalha: {
+    borderColor: '#fecaca',
+    backgroundColor: '#fff7f7',
+  },
+  cardAprovado: {
+    borderColor: '#bbf7d0',
+    backgroundColor: '#f0fdf4',
+  },
   perguntaTexto: {
     fontSize: 20,
     fontWeight: '700',
@@ -630,6 +668,10 @@ const styles = StyleSheet.create({
   resultLinha: {
     fontSize: 18,
     color: '#334155',
+    marginTop: 6,
+  },
+  dicaTexto: {
+    color: '#0f172a',
     marginTop: 6,
   },
   emoji: {
