@@ -2,17 +2,18 @@ import { fetchFileJson, listFolderFiles } from '@/lib/driveApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-    Animated,
-    BackHandler,
-    Easing,
-    LayoutChangeEvent,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  Animated,
+  BackHandler,
+  Easing,
+  LayoutChangeEvent,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -23,7 +24,7 @@ type Pergunta = {
   respostaCorreta: string;
 };
 
-type Stage = 'catalog' | 'start' | 'quiz' | 'result' | 'dashboard';
+type Stage = 'catalog' | 'loading' | 'start' | 'quiz' | 'result' | 'dashboard';
 
 // Duração do timer por questão (ms)
 const DURATION_MS = 20000;
@@ -89,6 +90,7 @@ export default function HomeScreen() {
   const lockedRef = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [tempoRestante, setTempoRestante] = useState<number>(DURATION_MS / 1000);
+  const loadingTokenRef = useRef(0);
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
 
@@ -244,6 +246,12 @@ export default function HomeScreen() {
   // Back (Android): voltar para a tela anterior em vez de sair do app
   const handleHardwareBack = useCallback(() => {
     if (stage === 'catalog') return false; // deixa o SO fechar o app
+    if (stage === 'loading') {
+      // cancela abertura e volta ao catálogo
+      loadingTokenRef.current += 1;
+      setStage('catalog');
+      return true;
+    }
     if (stage === 'dashboard') {
       setStage('catalog');
       return true;
@@ -455,8 +463,13 @@ export default function HomeScreen() {
   }, []);
 
   const abrirQuestionario = async (id: string, fallbackName?: string) => {
+    // entra em tela de loading e cria um token para permitir cancelamento
+    loadingTokenRef.current += 1;
+    const token = loadingTokenRef.current;
+    setStage('loading');
     try {
       const data: any = await fetchFileJson(id);
+      if (token !== loadingTokenRef.current) return; // cancelado
       const arr = Array.isArray(data) ? data : data?.perguntas || data?.questions;
       setQuestionarioNome(
         typeof data?.name === 'string' && data.name.trim().length > 0
@@ -471,7 +484,9 @@ export default function HomeScreen() {
       setErros(0);
       setStage('start');
     } catch (e: any) {
+      if (token !== loadingTokenRef.current) return; // cancelado
       setCatalogError(e?.message || 'Não foi possível abrir o questionário');
+      setStage('catalog');
     }
   };
 
@@ -560,7 +575,7 @@ export default function HomeScreen() {
               </View>
             )}
           </ScrollView>
-          <View style={[styles.bottomBar, { paddingBottom: insets.bottom - 30 }]}> 
+          <View style={[styles.bottomBar, { paddingBottom: insets.bottom - 20 }]}> 
             <View style={styles.bottomRow}>
               <Pressable onPress={recarregarCatalogo} style={[styles.botaoBottom, { flex: 1 }]} android_ripple={{ color: '#e2e8f0' }}>
                 <Text style={styles.botaoBottomTexto}>Recarregar</Text>
@@ -587,6 +602,16 @@ export default function HomeScreen() {
             </Pressable>
             <Pressable onPress={() => setStage('catalog')} style={{ marginTop: 12, padding: 8 }}>
               <Text style={{ color: '#2563eb', textDecorationLine: 'underline' }}>Voltar ao catálogo</Text>
+            </Pressable>
+          </View>
+        )}
+
+        {stage === 'loading' && (
+          <View style={styles.centerContent}>
+            <ActivityIndicator size="large" color="#2563eb" />
+            <Text style={[styles.infoTexto, { marginTop: 12 }]}>Carregando questionário…</Text>
+            <Pressable onPress={() => setStage('catalog')} style={{ marginTop: 16, padding: 8 }}>
+              <Text style={{ color: '#2563eb', textDecorationLine: 'underline' }}>Cancelar</Text>
             </Pressable>
           </View>
         )}
