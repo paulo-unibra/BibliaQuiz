@@ -1,0 +1,225 @@
+{
+  "name": "Apocalipse 6",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "Quando o primeiro selo foi aberto, o que o primeiro animal disse?",
+      "alternativas": [
+        "Vem e vê!",
+        "Santo, Santo, Santo",
+        "Glória a Deus",
+        "Ai dos habitantes da terra"
+      ],
+      "respostaCorreta": "Vem e vê!"
+    },
+    {
+      "id": "2",
+      "pergunta": "Qual a cor do cavalo do primeiro selo?",
+      "alternativas": [
+        "Branco",
+        "Vermelho",
+        "Preto",
+        "Amarelo"
+      ],
+      "respostaCorreta": "Branco"
+    },
+    {
+      "id": "3",
+      "pergunta": "O que o cavaleiro do cavalo branco tinha?",
+      "alternativas": [
+        "Um arco",
+        "Uma espada",
+        "Uma balança",
+        "Nada"
+      ],
+      "respostaCorreta": "Um arco"
+    },
+    {
+      "id": "4",
+      "pergunta": "O que foi dado ao cavaleiro do cavalo branco?",
+      "alternativas": [
+        "Uma coroa",
+        "Um arco",
+        "Poder para vencer",
+        "Uma espada"
+      ],
+      "respostaCorreta": "Uma coroa"
+    },
+    {
+      "id": "5",
+      "pergunta": "Qual a cor do cavalo do segundo selo?",
+      "alternativas": [
+        "Vermelho",
+        "Branco",
+        "Preto",
+        "Amarelo"
+      ],
+      "respostaCorreta": "Vermelho"
+    },
+    {
+      "id": "6",
+      "pergunta": "O que foi dado ao cavaleiro do cavalo vermelho?",
+      "alternativas": [
+        "Uma grande espada",
+        "Uma coroa",
+        "Uma balança",
+        "Poder sobre a morte"
+      ],
+      "respostaCorreta": "Uma grande espada"
+    },
+    {
+      "id": "7",
+      "pergunta": "Qual a cor do cavalo do terceiro selo?",
+      "alternativas": [
+        "Preto",
+        "Branco",
+        "Vermelho",
+        "Amarelo"
+      ],
+      "respostaCorreta": "Preto"
+    },
+    {
+      "id": "8",
+      "pergunta": "O que o cavaleiro do cavalo preto tinha na mão?",
+      "alternativas": [
+        "Uma balança",
+        "Um arco",
+        "Uma espada",
+        "Nada"
+      ],
+      "respostaCorreta": "Uma balança"
+    },
+    {
+      "id": "9",
+      "pergunta": "O que a voz no meio dos animais disse sobre o preço do trigo?",
+      "alternativas": [
+        "Uma medida por um dinheiro",
+        "Três medidas por um dinheiro",
+        "Gratuito",
+        "Duas medidas por um dinheiro"
+      ],
+      "respostaCorreta": "Uma medida por um dinheiro"
+    },
+    {
+      "id": "10",
+      "pergunta": "O que a voz disse para não danificar?",
+      "alternativas": [
+        "O azeite e o vinho",
+        "O trigo e a cevada",
+        "A paz da terra",
+        "As almas"
+      ],
+      "respostaCorreta": "O azeite e o vinho"
+    },
+    {
+      "id": "11",
+      "pergunta": "Qual a cor do cavalo do quarto selo?",
+      "alternativas": [
+        "Amarelo",
+        "Branco",
+        "Vermelho",
+        "Preto"
+      ],
+      "respostaCorreta": "Amarelo"
+    },
+    {
+      "id": "12",
+      "pergunta": "Qual o nome do cavaleiro do cavalo amarelo?",
+      "alternativas": [
+        "Morte",
+        "Inferno",
+        "Fome",
+        "Peste"
+      ],
+      "respostaCorreta": "Morte"
+    },
+    {
+      "id": "13",
+      "pergunta": "Quem seguia o cavaleiro da Morte?",
+      "alternativas": [
+        "O inferno",
+        "A fome",
+        "A peste",
+        "As feras"
+      ],
+      "respostaCorreta": "O inferno"
+    },
+    {
+      "id": "14",
+      "pergunta": "O que foi dado à Morte e ao Inferno?",
+      "alternativas": [
+        "Poder para matar a quarta parte da terra",
+        "Uma grande espada",
+        "Uma balança",
+        "Uma coroa"
+      ],
+      "respostaCorreta": "Poder para matar a quarta parte da terra"
+    },
+    {
+      "id": "15",
+      "pergunta": "O que João viu quando o quinto selo foi aberto?",
+      "alternativas": [
+        "As almas dos mortos por amor de Deus",
+        "Um cavalo amarelo",
+        "Um tremor de terra",
+        "Estrelas caindo"
+      ],
+      "respostaCorreta": "As almas dos mortos por amor de Deus"
+    },
+    {
+      "id": "16",
+      "pergunta": "Por que essas almas foram mortas?",
+      "alternativas": [
+        "Por amor da palavra de Deus e do testemunho",
+        "Por causa de seus pecados",
+        "Pela espada do cavaleiro",
+        "Pela fome"
+      ],
+      "respostaCorreta": "Por amor da palavra de Deus e do testemunho"
+    },
+    {
+      "id": "17",
+      "pergunta": "O que foi dado a cada alma sob o altar?",
+      "alternativas": [
+        "Uma comprida veste branca",
+        "Uma coroa",
+        "Poder para vingar",
+        "Descanso eterno"
+      ],
+      "respostaCorreta": "Uma comprida veste branca"
+    },
+    {
+      "id": "18",
+      "pergunta": "O que foi dito a essas almas?",
+      "alternativas": [
+        "Que repousassem ainda um pouco",
+        "Que se levantassem",
+        "Que julgassem a terra",
+        "Que clamassem mais"
+      ],
+      "respostaCorreta": "Que repousassem ainda um pouco"
+    },
+    {
+      "id": "19",
+      "pergunta": "O que aconteceu quando o sexto selo foi aberto?",
+      "alternativas": [
+        "Houve um grande tremor de terra",
+        "Saiu um cavalo amarelo",
+        "As almas receberam vestes",
+        "Uma voz disse vem e vê"
+      ],
+      "respostaCorreta": "Houve um grande tremor de terra"
+    },
+    {
+      "id": "20",
+      "pergunta": "O que os reis e poderosos fizeram durante o sexto selo?",
+      "alternativas": [
+        "Esconderam-se nas cavernas",
+        "Clamaram por misericórdia",
+        "Adoraram o Cordeiro",
+        "Fugiram para as montanhas"
+      ],
+      "respostaCorreta": "Esconderam-se nas cavernas"
+    }
+  ]
+}
