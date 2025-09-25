@@ -46,6 +46,36 @@ function shuffle<T>(input: T[]): T[] {
 // Remove sufixo .json (case-insensitive) para exibição
 const toDisplayName = (name: string) => name.replace(/\.json$/i, '');
 
+// Função para calcular a cor da água baseada no tempo restante
+const getWaterColor = (tempoRestante: number): string => {
+  if (tempoRestante > 30) {
+    return '#bfdbfe'; // Azul normal
+  }
+  
+  // Nos últimos 30 segundos, adiciona "temperatura" na cor azul muito gradualmente
+  const progress = Math.min(1, (30 - tempoRestante) / 30); // 0 a 1 ao longo de 30 segundos
+  
+  // Transição ultra-suave usando curva exponencial para mudança mais gradual
+  const smoothProgress = Math.pow(progress, 2.2); // Curva ainda mais suave que acelera só no final
+  
+  // Cores base do azul original
+  const baseRed = 191;
+  const baseGreen = 219;  
+  const baseBlue = 254;
+  
+  // Mudanças muito sutis - praticamente imperceptível nos primeiros 20s
+  const r = Math.round(baseRed + (35 * smoothProgress)); // Vermelho cresce devagar
+  const g = Math.round(baseGreen - (85 * smoothProgress)); // Verde diminui devagar
+  const b = Math.round(baseBlue - (120 * smoothProgress)); // Azul diminui devagar
+  
+  // Garante valores RGB válidos
+  const red = Math.min(255, Math.max(0, r));
+  const green = Math.min(255, Math.max(0, g));
+  const blue = Math.min(255, Math.max(0, b));
+  
+  return `rgb(${red}, ${green}, ${blue})`;
+};
+
 // Classifica o nível da questão baseado no tamanho do texto
 function classificarNivel(pergunta: string): 'facil' | 'medio' | 'dificil' {
   const tamanho = pergunta.trim().length;
@@ -248,7 +278,7 @@ export default function HomeScreen() {
       if (stage === 'quiz') {
         startTimer();
       } else {
-        aguaAltura.setValue(h);
+        aguaAltura.setValue(0);
       }
     }
   };
@@ -571,7 +601,13 @@ export default function HomeScreen() {
       >
         <Animated.View
           pointerEvents="none"
-          style={[styles.agua, { height: stage === 'quiz' ? aguaAltura : 0 }]}
+          style={[
+            styles.agua, 
+            { 
+              height: stage === 'quiz' ? aguaAltura : 0,
+              backgroundColor: stage === 'quiz' ? getWaterColor(tempoRestante) : '#bfdbfe'
+            }
+          ]}
         />
 
         {stage === 'catalog' && (
@@ -676,13 +712,7 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            <View style={{ alignItems: 'center', gap: 8 }}>
-              <View style={[styles.pill, styles.pillTempo]}>
-                <Text style={styles.pillTexto}>Tempo: {tempoRestante}s</Text>
-              </View>
-              <View style={[styles.pill, styles.pillQuestao]}>
-                <Text style={styles.pillTexto}>Questão {indice + 1} de {perguntas.length}</Text>
-              </View>
+            <View style={{ alignItems: 'center', marginBottom: 16 }}>
               {perguntaAtual?.nivel && (
                 <View style={[
                   styles.pill, 
@@ -699,8 +729,18 @@ export default function HomeScreen() {
               )}
             </View>
 
-            <View style={styles.cardPergunta}>
-              <Text style={styles.perguntaTexto}>{perguntaAtual?.pergunta}</Text>
+            <View style={styles.cardPerguntaContainer}>
+              <View style={[styles.timerCircle, styles.timerCircleFixo]}>
+                <Text style={styles.timerCircleTexto}>{tempoRestante}</Text>
+              </View>
+              <View style={styles.cardPergunta}>
+                <Text style={styles.perguntaTexto}>{perguntaAtual?.pergunta}</Text>
+              </View>
+              <View style={{ alignItems: 'center', marginTop: 12 }}>
+                <View style={[styles.pill, styles.pillQuestao]}>
+                  <Text style={styles.pillTexto}>Questão {indice + 1} de {perguntas.length}</Text>
+                </View>
+              </View>
             </View>
 
             <View style={styles.alternativas}>
@@ -837,10 +877,9 @@ const styles = StyleSheet.create({
   },
   agua: {
     position: 'absolute',
-    top: 0,
+    bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#bfdbfe',
   },
   uploadWrapper: {
     padding: 16,
@@ -974,6 +1013,34 @@ const styles = StyleSheet.create({
   pillFacil: { backgroundColor: '#dcfce7' },
   pillMedio: { backgroundColor: '#fef3c7' },
   pillDificil: { backgroundColor: '#fee2e2' },
+  cardPerguntaContainer: {
+    position: 'relative',
+  },
+  pillTempoFixo: {
+    position: 'absolute',
+    top: -20,
+    right: 8,
+    zIndex: 10,
+  },
+  timerCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#dbeafe',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  timerCircleFixo: {
+    position: 'absolute',
+    top: -25,
+    right: 8,
+    zIndex: 10,
+  },
+  timerCircleTexto: {
+    color: '#0f172a',
+    fontWeight: '800',
+    fontSize: 16,
+  },
   cardPergunta: {
     backgroundColor: 'white',
     borderRadius: 12,
