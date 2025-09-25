@@ -198,7 +198,7 @@ export async function createOrUpdateUserProfile(
   }
 }
 
-// 4. Obter perfil do usuário atual com migração automática
+// 4. Obter perfil do usuário atual com migração automática (sem autenticação forçada)
 export async function getCurrentUserProfile(): Promise<UserProfile | null> {
   try {
     console.log('🔍 Iniciando getCurrentUserProfile...');
@@ -210,7 +210,7 @@ export async function getCurrentUserProfile(): Promise<UserProfile | null> {
     } : 'null');
     
     if (!user) {
-      console.log('❌ Nenhum usuário autenticado encontrado');
+      console.log('❌ Nenhum usuário autenticado encontrado (não forçando autenticação)');
       return null;
     }
 

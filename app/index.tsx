@@ -306,9 +306,11 @@ export default function HomeScreen() {
     };
   }, [indice, stage, startTimer]);
 
-  // Inicializar usuário com monitoramento de estado de autenticação
+  // Inicializar usuário com monitoramento controlado de estado de autenticação
   useEffect(() => {
     console.log('🔥 Configurando monitoramento de autenticação...');
+    
+    let isAuthenticating = false; // Flag para evitar múltiplas autenticações
     
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
       console.log('🔥 Estado de autenticação mudou:', user ? `UID: ${user.uid}` : 'Não autenticado');
@@ -320,14 +322,17 @@ export default function HomeScreen() {
           const profile = await getCurrentUserProfile();
           console.log('🔥 Perfil carregado:', profile);
           setUserProfile(profile);
-        } else {
-          // Não há usuário - iniciar autenticação anônima
+          isAuthenticating = false; // Reset flag
+        } else if (!isAuthenticating) {
+          // Não há usuário e não estamos já autenticando - iniciar autenticação anônima uma vez
           console.log('🔥 Nenhum usuário encontrado, iniciando autenticação anônima...');
+          isAuthenticating = true;
           await authenticateAnonymously();
           // O listener será chamado novamente quando a autenticação completar
         }
       } catch (error) {
         console.error('❌ Erro no monitoramento de autenticação:', error);
+        isAuthenticating = false; // Reset flag em caso de erro
       }
     });
 

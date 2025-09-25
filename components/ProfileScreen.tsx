@@ -41,6 +41,8 @@ export default function ProfileScreen({ onProfileComplete, onBack }: ProfileScre
   useEffect(() => {
     console.log('📱 ProfileScreen: Configurando monitoramento de autenticação...');
     
+    let isAuthenticating = false; // Flag para evitar múltiplas autenticações
+    
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
       console.log('📱 ProfileScreen: Estado de autenticação mudou:', user ? `UID: ${user.uid}` : 'Não autenticado');
       
@@ -65,15 +67,18 @@ export default function ProfileScreen({ onProfileComplete, onBack }: ProfileScre
             console.log('📱 ProfileScreen: Nenhum perfil encontrado - usuário novo');
             setCurrentProfile(null);
           }
-        } else {
-          // Não há usuário - iniciar autenticação anônima
+          isAuthenticating = false; // Reset flag
+        } else if (!isAuthenticating) {
+          // Não há usuário e não estamos já autenticando - iniciar autenticação anônima uma vez
           console.log('📱 ProfileScreen: Nenhum usuário encontrado, iniciando autenticação anônima...');
+          isAuthenticating = true;
           await authenticateAnonymously();
           // O listener será chamado novamente quando a autenticação completar
         }
       } catch (error) {
         console.error('❌ ProfileScreen: Erro no monitoramento de autenticação:', error);
         Alert.alert('Erro', 'Falha ao inicializar usuário');
+        isAuthenticating = false; // Reset flag em caso de erro
       } finally {
         setInitializing(false);
         console.log('📱 ProfileScreen: Inicialização concluída');
