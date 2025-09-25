@@ -1,0 +1,226 @@
+{
+  "name": "Hierarquia DIKW e Ciclo de Vida da Informação",
+  "category": "Gestão da Informação",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "De acordo com a hierarquia DIKW, o que é um dado?",
+      "alternativas": [
+        "Conjunto de dados organizado em um contexto",
+        "Elemento básico, como números ou palavras, sem significado intrínseco",
+        "Compreensão profunda das informações",
+        "Capacidade de usar o conhecimento de forma sábia"
+      ],
+      "respostaCorreta": "Elemento básico, como números ou palavras, sem significado intrínseco"
+    },
+    {
+      "id": "2",
+      "pergunta": "O que é informação na hierarquia DIKW?",
+      "alternativas": [
+        "Dados brutos e factuais",
+        "Conjunto de dados organizado em um contexto, com significado",
+        "Sabedoria aplicada",
+        "Conhecimento acumulado"
+      ],
+      "respostaCorreta": "Conjunto de dados organizado em um contexto, com significado"
+    },
+    {
+      "id": "3",
+      "pergunta": "Como é definido o conhecimento na hierarquia DIKW?",
+      "alternativas": [
+        "Dados interpretados",
+        "Informações inter-relacionadas, compreendendo como usá-las",
+        "Sabedoria prática",
+        "Dados organizados"
+      ],
+      "respostaCorreta": "Informações inter-relacionadas, compreendendo como usá-las"
+    },
+    {
+      "id": "4",
+      "pergunta": "O que é sabedoria na hierarquia DIKW?",
+      "alternativas": [
+        "Conhecimento com entendimento de uso, considerando consequências",
+        "Informação valiosa",
+        "Dados processados",
+        "Conhecimento técnico"
+      ],
+      "respostaCorreta": "Conhecimento com entendimento de uso, considerando consequências"
+    },
+    {
+      "id": "5",
+      "pergunta": "Qual dos seguintes é um exemplo de dado?",
+      "alternativas": [
+        "O produto custa R$15",
+        "15",
+        "Saber que R$15 é um preço razoável",
+        "Decidir comprar com base no conhecimento"
+      ],
+      "respostaCorreta": "15"
+    },
+    {
+      "id": "6",
+      "pergunta": "Qual é um exemplo de informação?",
+      "alternativas": [
+        "30%",
+        "A temperatura é de 30 graus Celsius",
+        "Compreender que 30 graus é alta temperatura",
+        "Usar o conhecimento para se proteger do calor"
+      ],
+      "respostaCorreta": "A temperatura é de 30 graus Celsius"
+    },
+    {
+      "id": "7",
+      "pergunta": "Qual exemplo ilustra conhecimento?",
+      "alternativas": [
+        "\"Vermelho\"",
+        "\"A cor do carro é vermelha\"",
+        "Saber que vermelho é uma cor quente",
+        "Escolher vermelho para um design específico"
+      ],
+      "respostaCorreta": "Saber que vermelho é uma cor quente"
+    },
+    {
+      "id": "8",
+      "pergunta": "Qual situação demonstra sabedoria?",
+      "alternativas": [
+        "Coletar dados de temperatura",
+        "Registrar que a temperatura é 30°C",
+        "Saber que 30°C é quente",
+        "Decidir usar protetor solar com base no conhecimento sobre calor"
+      ],
+      "respostaCorreta": "Decidir usar protetor solar com base no conhecimento sobre calor"
+    },
+    {
+      "id": "9",
+      "pergunta": "De acordo com a hierarquia DIKW, qual nível tem transmissão muito difícil?",
+      "alternativas": [
+        "Dados",
+        "Informação",
+        "Conhecimento",
+        "Sabedoria"
+      ],
+      "respostaCorreta": "Sabedoria"
+    },
+    {
+      "id": "10",
+      "pergunta": "Por que as empresas precisam de informações?",
+      "alternativas": [
+        "Para substituir outros ativos",
+        "Para saber fazer, aprimorar, conhecer clientes e satisfazê-los",
+        "Para cumprir leis apenas",
+        "Para armazenar dados indefinidamente"
+      ],
+      "respostaCorreta": "Para saber fazer, aprimorar, conhecer clientes e satisfazê-los"
+    },
+    {
+      "id": "11",
+      "pergunta": "Por que as informações são consideradas um ativo da empresa?",
+      "alternativas": [
+        "Porque podem ser vendidas",
+        "Porque são essenciais para a continuidade dos negócios, retorno investimentos e minimizar transtornos",
+        "Porque são fáceis de proteger",
+        "Porque são eternas"
+      ],
+      "respostaCorreta": "Porque são essenciais para a continuidade dos negócios, retorno investimentos e minimizar transtornos"
+    },
+    {
+      "id": "12",
+      "pergunta": "Por que as informações estão em constante risco?",
+      "alternativas": [
+        "Porque são digitais",
+        "Porque muitas são sensíveis e precisam de proteção para os negócios e LGPD",
+        "Porque as empresas não as valorizam",
+        "Porque são caras"
+      ],
+      "respostaCorreta": "Porque muitas são sensíveis e precisam de proteção para os negócios e LGPD"
+    },
+    {
+      "id": "13",
+      "pergunta": "A informação é eterna?",
+      "alternativas": [
+        "Sim, sempre existe",
+        "Não, ela é criada, usada e pode ser destruída",
+        "Depende do tipo de informação",
+        "Somente se for armazenada"
+      ],
+      "respostaCorreta": "Não, ela é criada, usada e pode ser destruída"
+    },
+    {
+      "id": "14",
+      "pergunta": "Quais são as etapas do ciclo de vida da informação?",
+      "alternativas": [
+        "Criação, uso, destruição",
+        "Coleta, processamento, análise, armazenamento, compartilhamento, reutilização, eliminação",
+        "Dados, informação, conhecimento, sabedoria",
+        "Produção, consumo, descarte"
+      ],
+      "respostaCorreta": "Coleta, processamento, análise, armazenamento, compartilhamento, reutilização, eliminação"
+    },
+    {
+      "id": "15",
+      "pergunta": "O que a LGPD determina em relação aos dados pessoais?",
+      "alternativas": [
+        "Que devem ser armazenados para sempre",
+        "Que as empresas podem usá-los livremente",
+        "Que deve ser claro a finalidade, solicitar consentimento e realizar tratamento adequado",
+        "Que apenas empresas privadas precisam cumprir"
+      ],
+      "respostaCorreta": "Que deve ser claro a finalidade, solicitar consentimento e realizar tratamento adequado"
+    },
+    {
+      "id": "16",
+      "pergunta": "Por que é importante classificar dados corretamente de acordo com a LGPD?",
+      "alternativas": [
+        "Para vender os dados",
+        "Para estar em conformidade com a lei, implementando políticas e processos apropriados",
+        "Para reduzir custos",
+        "Para aumentar a velocidade de processamento"
+      ],
+      "respostaCorreta": "Para estar em conformidade com a lei, implementando políticas e processos apropriados"
+    },
+    {
+      "id": "17",
+      "pergunta": "O que deve ser incorporado ao negócio considerando a LGPD?",
+      "alternativas": [
+        "A venda de dados",
+        "A Gestão do Ciclo de Vida dos Dados",
+        "A eliminação imediata de dados",
+        "O compartilhamento livre de dados"
+      ],
+      "respostaCorreta": "A Gestão do Ciclo de Vida dos Dados"
+    },
+    {
+      "id": "18",
+      "pergunta": "De acordo com o resumo da hierarquia DIKW, o que é conhecimento?",
+      "alternativas": [
+        "Fatos brutos",
+        "Organização e interpretação de dados",
+        "Compreensão aplicada da informação",
+        "Uso sábio do conhecimento"
+      ],
+      "respostaCorreta": "Compreensão aplicada da informação"
+    },
+    {
+      "id": "19",
+      "pergunta": "Qual a diferença entre informação e conhecimento na DIKW?",
+      "alternativas": [
+        "Informação são dados organizados, conhecimento é a compreensão de como usar",
+        "Informação é sabedoria, conhecimento é dado",
+        "Informação é mais valiosa que conhecimento",
+        "Não há diferença"
+      ],
+      "respostaCorreta": "Informação são dados organizados, conhecimento é a compreensão de como usar"
+    },
+    {
+      "id": "20",
+      "pergunta": "Qual é o objetivo principal de proteger as informações?",
+      "alternativas": [
+        "Evitar vazamentos",
+        "Garantir continuidade dos negócios, maximizar retorno e minimizar transtornos",
+        "Cumprir a LGPD",
+        "Tornar as informações secretas"
+      ],
+      "respostaCorreta": "Garantir continuidade dos negócios, maximizar retorno e minimizar transtornos"
+    }
+  ]
+}

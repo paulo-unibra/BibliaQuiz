@@ -1,0 +1,116 @@
+{
+  "name": "Ciclo PDCA",
+  "category": "Gestão da Qualidade",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "O que é o ciclo PDCA?",
+      "alternativas": [
+        "Uma ferramenta de marketing",
+        "Um método gerencial para melhoria de processos e solução de problemas",
+        "Um software de gestão empresarial",
+        "Um modelo de liderança"
+      ],
+      "respostaCorreta": "Um método gerencial para melhoria de processos e solução de problemas"
+    },
+    {
+      "id": "2",
+      "pergunta": "Quem popularizou o ciclo PDCA na forma como é conhecido hoje?",
+      "alternativas": [
+        "René Descartes",
+        "Edward Deming",
+        "Joseph Juran",
+        "Kaoru Ishikawa"
+      ],
+      "respostaCorreta": "Edward Deming"
+    },
+    {
+      "id": "3",
+      "pergunta": "Qual é a primeira etapa do ciclo PDCA?",
+      "alternativas": [
+        "Executar",
+        "Verificar",
+        "Planejar",
+        "Agir"
+      ],
+      "respostaCorreta": "Planejar"
+    },
+    {
+      "id": "4",
+      "pergunta": "Na etapa de planejamento, qual ferramenta pode ser utilizada para identificar os pontos mais importantes a serem tratados?",
+      "alternativas": [
+        "Diagrama de Ishikawa",
+        "5W2H",
+        "Análise de Pareto",
+        "Brainstorming"
+      ],
+      "respostaCorreta": "Análise de Pareto"
+    },
+    {
+      "id": "5",
+      "pergunta": "Qual ferramenta auxilia na criação de um plano de ação detalhado na etapa de planejamento?",
+      "alternativas": [
+        "PDCA",
+        "5W2H",
+        "Diagrama de Gantt",
+        "SWOT"
+      ],
+      "respostaCorreta": "5W2H"
+    },
+    {
+      "id": "6",
+      "pergunta": "O que deve ser feito na etapa de execução?",
+      "alternativas": [
+        "Definir objetivos e metas",
+        "Medir os resultados",
+        "Implementar o plano de ação e treinar pessoas, se necessário",
+        "Padronizar processos"
+      ],
+      "respostaCorreta": "Implementar o plano de ação e treinar pessoas, se necessário"
+    },
+    {
+      "id": "7",
+      "pergunta": "Qual é o objetivo da etapa de verificação no PDCA?",
+      "alternativas": [
+        "Padronizar processos",
+        "Executar as atividades",
+        "Medir os resultados e compará-los às metas",
+        "Definir um novo plano de ação"
+      ],
+      "respostaCorreta": "Medir os resultados e compará-los às metas"
+    },
+    {
+      "id": "8",
+      "pergunta": "O que deve ser feito quando os resultados obtidos no PDCA são satisfatórios?",
+      "alternativas": [
+        "Reiniciar o ciclo imediatamente",
+        "Padronizar o que foi construído",
+        "Descartar o plano de ação",
+        "Voltar à etapa de execução"
+      ],
+      "respostaCorreta": "Padronizar o que foi construído"
+    },
+    {
+      "id": "9",
+      "pergunta": "Qual é um dos principais erros a evitar no ciclo PDCA?",
+      "alternativas": [
+        "Registrar o que foi executado",
+        "Executar sem um plano de ação bem elaborado",
+        "Utilizar ferramentas como 5W2H",
+        "Treinar pessoas para execução"
+      ],
+      "respostaCorreta": "Executar sem um plano de ação bem elaborado"
+    },
+    {
+      "id": "10",
+      "pergunta": "Por que o PDCA é considerado um método cíclico?",
+      "alternativas": [
+        "Porque deve ser repetido continuamente para promover melhoria contínua",
+        "Porque possui quatro etapas fixas que não mudam",
+        "Porque sempre gera os mesmos resultados",
+        "Porque é aplicado apenas uma vez por processo"
+      ],
+      "respostaCorreta": "Porque deve ser repetido continuamente para promover melhoria contínua"
+    }
+  ]
+}

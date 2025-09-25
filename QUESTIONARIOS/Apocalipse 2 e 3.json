@@ -1,0 +1,556 @@
+{
+  "name": "Capítulos 2 e 3",
+  "category": "Apocalipse",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "Como Cristo se apresenta para a igreja de Éfeso?",
+      "alternativas": [
+        "Aquele que tem as sete estrelas",
+        "O primeiro e o último",
+        "O Filho de Deus",
+        "O que tem os sete espíritos"
+      ],
+      "respostaCorreta": "Aquele que tem as sete estrelas"
+    },
+    {
+      "id": "2",
+      "pergunta": "Como Cristo se apresenta para a igreja de Esmirna?",
+      "alternativas": [
+        "Aquele que tem as sete estrelas",
+        "O primeiro e o último",
+        "Aquele que tem a espada aguda de dois fios",
+        "A testemunha fiel e verdadeira"
+      ],
+      "respostaCorreta": "O primeiro e o último"
+    },
+    {
+      "id": "3",
+      "pergunta": "Como Cristo se apresenta para a igreja de Pérgamo?",
+      "alternativas": [
+        "Aquele que tem a espada aguda de dois fios",
+        "O primeiro e o último",
+        "O que é Santo",
+        "O Filho de Deus"
+      ],
+      "respostaCorreta": "Aquele que tem a espada aguda de dois fios"
+    },
+    {
+      "id": "4",
+      "pergunta": "Como Cristo se apresenta para a igreja de Tiatira?",
+      "alternativas": [
+        "O Filho de Deus",
+        "Aquele que tem a espada aguda de dois fios",
+        "A testemunha fiel e verdadeira",
+        "Aquele que tem as sete estrelas"
+      ],
+      "respostaCorreta": "O Filho de Deus"
+    },
+    {
+      "id": "5",
+      "pergunta": "Como Cristo se apresenta para a igreja de Sardes?",
+      "alternativas": [
+        "O primeiro e o último",
+        "O Filho de Deus",
+        "O que tem os sete espíritos",
+        "A testemunha fiel e verdadeira"
+      ],
+      "respostaCorreta": "O que tem os sete espíritos"
+    },
+    {
+      "id": "6",
+      "pergunta": "Como Cristo se apresenta para a igreja de Filadélfia?",
+      "alternativas": [
+        "O que é Santo",
+        "O Filho de Deus",
+        "O que tem os sete espíritos",
+        "Aquele que tem as sete estrelas"
+      ],
+      "respostaCorreta": "O que é Santo"
+    },
+    {
+      "id": "7",
+      "pergunta": "Como Cristo se apresenta para a igreja de Laodiceia?",
+      "alternativas": [
+        "A testemunha fiel e verdadeira",
+        "Aquele que tem as sete estrelas",
+        "O primeiro e o último",
+        "O Filho de Deus"
+      ],
+      "respostaCorreta": "A testemunha fiel e verdadeira"
+    },
+    {
+      "id": "8",
+      "pergunta": "A qual igreja Jesus se revelou como aquele que foi morto e reviveu?",
+      "alternativas": [
+        "Éfeso",
+        "Esmirna",
+        "Pérgamo",
+        "Tiatira"
+      ],
+      "respostaCorreta": "Esmirna"
+    },
+    {
+      "id": "9",
+      "pergunta": "Segundo as palavras de Cristo, a tribulação de Esmirna duraria?",
+      "alternativas": [
+        "10 dias",
+        "40 dias",
+        "7 anos",
+        "3 anos e meio"
+      ],
+      "respostaCorreta": "10 dias"
+    },
+    {
+      "id": "10",
+      "pergunta": "A qual igreja Jesus disse: 'Ao que vencer, dar-lhe-ei a comer da árvore da vida que está no meio do paraíso de Deus'?",
+      "alternativas": [
+        "Éfeso",
+        "Esmirna",
+        "Pérgamo",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Éfeso"
+    },
+    {
+      "id": "11",
+      "pergunta": "A qual igreja Jesus disse: 'O que vencer não receberá o dano da segunda morte'?",
+      "alternativas": [
+        "Éfeso",
+        "Esmirna",
+        "Sardes",
+        "Filadélfia"
+      ],
+      "respostaCorreta": "Esmirna"
+    },
+    {
+      "id": "12",
+      "pergunta": "A qual igreja Jesus disse: 'Ao que vencer darei eu a comer do maná escondido e dar-lhe-ei uma pedra branca, e na pedra um novo nome escrito, o qual ninguém conhece senão aquele que o recebe'?",
+      "alternativas": [
+        "Esmirna",
+        "Pérgamo",
+        "Tiatira",
+        "Sardes"
+      ],
+      "respostaCorreta": "Pérgamo"
+    },
+    {
+      "id": "13",
+      "pergunta": "A qual igreja Jesus disse: 'E ao que vencer e guardar até ao fim as minhas obras, eu lhe darei poder sobre as nações, e com vara de ferro as regerá; e serão quebradas como vasos de oleiro; como também recebi de meu Pai'?",
+      "alternativas": [
+        "Pérgamo",
+        "Tiatira",
+        "Sardes",
+        "Filadélfia"
+      ],
+      "respostaCorreta": "Tiatira"
+    },
+    {
+      "id": "14",
+      "pergunta": "A qual igreja Jesus disse: 'O que vencer será vestido de vestes brancas, e de maneira nenhuma riscarei o seu nome do livro da vida; e confessarei o seu nome diante de meu Pai e diante dos seus anjos'?",
+      "alternativas": [
+        "Tiatira",
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Sardes"
+    },
+    {
+      "id": "15",
+      "pergunta": "A qual igreja Jesus disse: 'Quem vencer, eu o farei coluna no templo do meu Deus, e dele nunca sairá; e escreverei sobre ele o nome do meu Deus e o nome da cidade do meu Deus, a nova Jerusalém, que desce do céu, do meu Deus, e também o meu novo nome'?",
+      "alternativas": [
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia",
+        "Éfeso"
+      ],
+      "respostaCorreta": "Filadélfia"
+    },
+    {
+      "id": "16",
+      "pergunta": "Quais igrejas não sofreram repreensão?",
+      "alternativas": [
+        "Éfeso e Sardes",
+        "Pérgamo e Tiatira",
+        "Esmirna e Filadélfia",
+        "Laodiceia e Tiatira"
+      ],
+      "respostaCorreta": "Esmirna e Filadélfia"
+    },
+    {
+      "id": "17",
+      "pergunta": "Qual igreja foi repreendida por ter deixado o primeiro amor?",
+      "alternativas": [
+        "Éfeso",
+        "Esmirna",
+        "Sardes",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Éfeso"
+    },
+    {
+      "id": "18",
+      "pergunta": "Qual igreja foi reconhecida por aborrecer a doutrina dos nicolaítas?",
+      "alternativas": [
+        "Esmirna",
+        "Éfeso",
+        "Filadélfia",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Éfeso"
+    },
+    {
+      "id": "19",
+      "pergunta": "Segundo a BEP, os nicolaítas ensinavam:",
+      "alternativas": [
+        "Que a circuncisão era necessária para a salvação",
+        "Que a imoralidade sexual não afetava a salvação",
+        "Que Jesus não era o Messias",
+        "Que se devia guardar o sábado"
+      ],
+      "respostaCorreta": "Que a imoralidade sexual não afetava a salvação"
+    },
+    {
+      "id": "20",
+      "pergunta": "Segundo o texto de Apocalipse 2:14,15, os nicolaítas foram comparados a:",
+      "alternativas": [
+        "Balaão",
+        "Jezabel",
+        "Herodes",
+        "Satanás"
+      ],
+      "respostaCorreta": "Balaão"
+    },
+    {
+      "id": "21",
+      "pergunta": "Qual igreja foi reconhecida por pôr à prova os falsos apóstolos?",
+      "alternativas": [
+        "Éfeso",
+        "Pérgamo",
+        "Sardes",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Éfeso"
+    },
+    {
+      "id": "22",
+      "pergunta": "Qual igreja foi ameaçada de o seu castiçal ser tirado do lugar?",
+      "alternativas": [
+        "Pérgamo",
+        "Éfeso",
+        "Sardes",
+        "Tiatira"
+      ],
+      "respostaCorreta": "Éfeso"
+    },
+    {
+      "id": "23",
+      "pergunta": "A qual igreja foi dito que o diabo lançaria alguns na prisão?",
+      "alternativas": [
+        "Éfeso",
+        "Esmirna",
+        "Filadélfia",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Esmirna"
+    },
+    {
+      "id": "24",
+      "pergunta": "A qual igreja foi dito que se daria a coroa da vida?",
+      "alternativas": [
+        "Éfeso",
+        "Esmirna",
+        "Sardes",
+        "Filadélfia"
+      ],
+      "respostaCorreta": "Esmirna"
+    },
+    {
+      "id": "25",
+      "pergunta": "Segundo a BEP, qual cidade era o centro de adoração ao imperador romano?",
+      "alternativas": [
+        "Éfeso",
+        "Pérgamo",
+        "Laodiceia",
+        "Esmirna"
+      ],
+      "respostaCorreta": "Pérgamo"
+    },
+    {
+      "id": "26",
+      "pergunta": "Qual foi a fiel testemunha morta na cidade de Pérgamo?",
+      "alternativas": [
+        "Estêvão",
+        "Timóteo",
+        "Antipas",
+        "Policarpo"
+      ],
+      "respostaCorreta": "Antipas"
+    },
+    {
+      "id": "27",
+      "pergunta": "Qual igreja tinha pessoas que seguiam a doutrina dos Nicolaítas?",
+      "alternativas": [
+        "Éfeso",
+        "Pérgamo",
+        "Sardes",
+        "Filadélfia"
+      ],
+      "respostaCorreta": "Pérgamo"
+    },
+    {
+      "id": "28",
+      "pergunta": "A qual igreja foi dito que Cristo viria batalhar com espada contra desobedientes?",
+      "alternativas": [
+        "Éfeso",
+        "Pérgamo",
+        "Tiatira",
+        "Sardes"
+      ],
+      "respostaCorreta": "Pérgamo"
+    },
+    {
+      "id": "29",
+      "pergunta": "A qual igreja Jesus se identificou como 'aquele que tem os pés semelhantes ao latão reluzente'?",
+      "alternativas": [
+        "Pérgamo",
+        "Tiatira",
+        "Sardes",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Tiatira"
+    },
+    {
+      "id": "30",
+      "pergunta": "Qual igreja foi reconhecida por ter as suas últimas obras melhores que as primeiras?",
+      "alternativas": [
+        "Éfeso",
+        "Sardes",
+        "Tiatira",
+        "Filadélfia"
+      ],
+      "respostaCorreta": "Tiatira"
+    },
+    {
+      "id": "31",
+      "pergunta": "Qual igreja foi repreendida por tolerar 'Jezabel'?",
+      "alternativas": [
+        "Pérgamo",
+        "Tiatira",
+        "Sardes",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Tiatira"
+    },
+    {
+      "id": "32",
+      "pergunta": "A qual igreja foi dito que seriam feridos aqueles que andassem na prostituição?",
+      "alternativas": [
+        "Pérgamo",
+        "Tiatira",
+        "Sardes",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Tiatira"
+    },
+    {
+      "id": "33",
+      "pergunta": "Segundo a BEP, o que significa a expressão 'As profundezas de Satanás'?",
+      "alternativas": [
+        "A prisão espiritual onde os demônios são mantidos",
+        "Ao falso ensino de que, para experimentar plenamente a graça e a salvação divinas, devemos penetrar nas profundezas do pecado",
+        "O local de julgamento final de Satanás",
+        "O abismo de onde surge a besta"
+      ],
+      "respostaCorreta": "Ao falso ensino de que, para experimentar plenamente a graça e a salvação divinas, devemos penetrar nas profundezas do pecado"
+    },
+    {
+      "id": "34",
+      "pergunta": "A qual igreja foi prometido que se fossem fiéis receberiam a 'estrela da manhã'?",
+      "alternativas": [
+        "Sardes",
+        "Tiatira",
+        "Filadélfia",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Tiatira"
+    },
+    {
+      "id": "35",
+      "pergunta": "Segundo a BEP, qual igreja estava morta espiritualmente?",
+      "alternativas": [
+        "Éfeso",
+        "Laodiceia",
+        "Sardes",
+        "Pérgamo"
+      ],
+      "respostaCorreta": "Sardes"
+    },
+    {
+      "id": "36",
+      "pergunta": "Segundo a Bíblia, a qual igreja Jesus disse que viria como um ladrão, caso o povo não se arrependesse?",
+      "alternativas": [
+        "Tiatira",
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Sardes"
+    },
+    {
+      "id": "37",
+      "pergunta": "Na igreja de Sardes, Jesus disse que os que não se corromperam:",
+      "alternativas": [
+        "Receberiam um novo nome",
+        "Andarão de branco com ele",
+        "Seriam colunas no templo",
+        "Comeriam do maná escondido"
+      ],
+      "respostaCorreta": "Andarão de branco com ele"
+    },
+    {
+      "id": "38",
+      "pergunta": "A qual igreja Jesus se apresentou como aquele que tem a chave de Davi?",
+      "alternativas": [
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia",
+        "Esmirna"
+      ],
+      "respostaCorreta": "Filadélfia"
+    },
+    {
+      "id": "39",
+      "pergunta": "A qual igreja Jesus disse que os da Sinagoga de Satanás iriam se arrepender e vir adorar com eles?",
+      "alternativas": [
+        "Esmirna",
+        "Filadélfia",
+        "Sardes",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Filadélfia"
+    },
+    {
+      "id": "40",
+      "pergunta": "A qual igreja foi dito que seria 'guardada da tribulação que viria sobre toda a terra'?",
+      "alternativas": [
+        "Esmirna",
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia"
+      ],
+      "respostaCorreta": "Filadélfia"
+    },
+    {
+      "id": "41",
+      "pergunta": "A qual igreja foi dito 'Guarda o que tens para que ninguém tome a tua coroa'?",
+      "alternativas": [
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia",
+        "Tiatira"
+      ],
+      "respostaCorreta": "Filadélfia"
+    },
+    {
+      "id": "42",
+      "pergunta": "A qual igreja Jesus se identifica como 'O Amém'?",
+      "alternativas": [
+        "Sardes",
+        "Filadélfia",
+        "Laodiceia",
+        "Tiatira"
+      ],
+      "respostaCorreta": "Laodiceia"
+    },
+    {
+      "id": "43",
+      "pergunta": "Qual igreja ficou conhecida por ser uma igreja morna?",
+      "alternativas": [
+        "Sardes",
+        "Laodiceia",
+        "Tiatira",
+        "Pérgamo"
+      ],
+      "respostaCorreta": "Laodiceia"
+    },
+    {
+      "id": "44",
+      "pergunta": "Qual igreja que Jesus disse que vomitaria de sua boca?",
+      "alternativas": [
+        "Sardes",
+        "Laodiceia",
+        "Pérgamo",
+        "Éfeso"
+      ],
+      "respostaCorreta": "Laodiceia"
+    },
+    {
+      "id": "45",
+      "pergunta": "Qual igreja dizia: 'Rico sou, estou enriquecido e de nada tenho falta'?",
+      "alternativas": [
+        "Sardes",
+        "Laodiceia",
+        "Filadélfia",
+        "Éfeso"
+      ],
+      "respostaCorreta": "Laodiceia"
+    },
+    {
+      "id": "46",
+      "pergunta": "Como Jesus chamou a igreja de Laodiceia?",
+      "alternativas": [
+        "Fiel e verdadeira",
+        "Desgraçada, miserável, pobre, cega e nua",
+        "Morta",
+        "Amorosa"
+      ],
+      "respostaCorreta": "Desgraçada, miserável, pobre, cega e nua"
+    },
+    {
+      "id": "47",
+      "pergunta": "Qual dos elementos abaixo Jesus aconselhou a igreja de Laodiceia comprar dele?",
+      "alternativas": [
+        "Vinho e leite",
+        "Ouro provado no fogo",
+        "Incenso e mirra",
+        "Pão e peixe"
+      ],
+      "respostaCorreta": "Ouro provado no fogo"
+    },
+    {
+      "id": "48",
+      "pergunta": "Qual dos elementos abaixo Jesus aconselhou a igreja de Laodiceia comprar?",
+      "alternativas": [
+        "Vestes brancas",
+        "Sandálias de couro",
+        "Uma coroa de ouro",
+        "Um novo nome"
+      ],
+      "respostaCorreta": "Vestes brancas"
+    },
+    {
+      "id": "49",
+      "pergunta": "A qual igreja foi recomendado limpar os olhos com colírio?",
+      "alternativas": [
+        "Sardes",
+        "Laodiceia",
+        "Filadélfia",
+        "Tiatira"
+      ],
+      "respostaCorreta": "Laodiceia"
+    },
+    {
+      "id": "50",
+      "pergunta": "A qual igreja Jesus disse estar batendo na porta?",
+      "alternativas": [
+        "Filadélfia",
+        "Laodiceia",
+        "Sardes",
+        "Éfeso"
+      ],
+      "respostaCorreta": "Laodiceia"
+    }
+  ]
+}

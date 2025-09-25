@@ -1,0 +1,83 @@
+{
+  "name": "ISO/IEC 27001 e ISO/IEC 27002",
+  "category": "Segurança da Informação",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "Qual é o objetivo da norma ISO/IEC 27002?",
+      "alternativas": [
+        "Estabelecer diretrizes e princípios iniciais para iniciar, implementar e melhorar a GSI da organização",
+        "Compatibilizar com a ISO 9001:2000 e ISO 14001:2004",
+        "Estabelecer requisitos para um Sistema de Gestão de Segurança da Informação",
+        "Definir penalidades legais para crimes cibernéticos"
+      ],
+      "respostaCorreta": "Estabelecer diretrizes e princípios iniciais para iniciar, implementar e melhorar a GSI da organização"
+    },
+    {
+      "id": "2",
+      "pergunta": "De acordo com a norma ISO/IEC 27002, como deve ser a Política de Segurança da Informação?",
+      "alternativas": [
+        "Formalizada em documento e comunicada claramente; deve ser revisada periodicamente",
+        "Definida oralmente entre gestores e funcionários",
+        "Mantida apenas em contratos de terceirizados",
+        "Aplicada apenas em incidentes de segurança"
+      ],
+      "respostaCorreta": "Formalizada em documento e comunicada claramente; deve ser revisada periodicamente"
+    },
+    {
+      "id": "3",
+      "pergunta": "Quais aspectos estão incluídos nos tópicos da norma ISO/IEC 27002?",
+      "alternativas": [
+        "Política de Segurança da Informação, Gestão de Ativos, Segurança Física e do Ambiente, Controles de Acessos",
+        "Gestão financeira, auditoria contábil e relatórios de investimentos",
+        "Tratamento de dados pessoais, privacidade e neutralidade da rede",
+        "Apenas coleta de evidências e mecanismos de análise"
+      ],
+      "respostaCorreta": "Política de Segurança da Informação, Gestão de Ativos, Segurança Física e do Ambiente, Controles de Acessos"
+    },
+    {
+      "id": "4",
+      "pergunta": "A norma ISO/IEC 27001 é baseada em qual abordagem?",
+      "alternativas": [
+        "Abordagem de riscos de negócio",
+        "Abordagem de gestão financeira",
+        "Abordagem de governança corporativa",
+        "Abordagem de auditoria contábil"
+      ],
+      "respostaCorreta": "Abordagem de riscos de negócio"
+    },
+    {
+      "id": "5",
+      "pergunta": "Qual é o ciclo utilizado pela norma ISO/IEC 27001?",
+      "alternativas": [
+        "Plan, Do, Check, Act (PDCA)",
+        "Analisar, Planejar, Executar, Monitorar",
+        "Coletar, Tratar, Armazenar, Eliminar",
+        "Definir, Aplicar, Corrigir, Auditar"
+      ],
+      "respostaCorreta": "Plan, Do, Check, Act (PDCA)"
+    },
+    {
+      "id": "6",
+      "pergunta": "O que a ISO/IEC 27001 ajuda a proteger?",
+      "alternativas": [
+        "Ativos de informação",
+        "Dados financeiros",
+        "Equipamentos de rede",
+        "Direitos autorais"
+      ],
+      "respostaCorreta": "Ativos de informação"
+    },
+    {
+      "id": "7",
+      "pergunta": "Qual é a única norma auditável para estabelecer um Sistema de Gestão de Segurança da Informação?",
+      "alternativas": [
+        "ISO/IEC 27001",
+        "ISO/IEC 27002",
+        "ISO/IEC 17799",
+        "ISO/IEC 9001"
+      ],
+      "respostaCorreta": "ISO/IEC 27001"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "name": "Pertencimento à CIA ou Parker",
+  "category": "Segurança da Informação",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "Qual dos seguintes atributos foi adicionado por Donn B. Parker ao modelo de segurança?",
+      "alternativas": [
+        "Confidencialidade",
+        "Integridade",
+        "Disponibilidade",
+        "Autenticidade"
+      ],
+      "respostaCorreta": "Autenticidade"
+    },
+    {
+      "id": "2",
+      "pergunta": "O atributo 'Disponibilidade' faz parte de qual modelo?",
+      "alternativas": [
+        "Apenas da tríade CIA",
+        "Apenas do Hexagrama Parkeriano",
+        "De ambos os modelos",
+        "De nenhum dos modelos"
+      ],
+      "respostaCorreta": "De ambos os modelos"
+    },
+    {
+      "id": "3",
+      "pergunta": "Quantos atributos Parker adicionou à tríade CIA para formar o Hexagrama?",
+      "alternativas": ["1", "2", "3", "4"],
+      "respostaCorreta": "3"
+    },
+    {
+      "id": "4",
+      "pergunta": "Qual destes atributos NÃO faz parte da tríade CIA?",
+      "alternativas": [
+        "Confidencialidade",
+        "Integridade",
+        "Disponibilidade",
+        "Posse/Controle"
+      ],
+      "respostaCorreta": "Posse/Controle"
+    },
+    {
+      "id": "5",
+      "pergunta": "O Hexagrama Parkeriano inclui todos os atributos da tríade CIA?",
+      "alternativas": ["Sim", "Não"],
+      "respostaCorreta": "Sim"
+    },
+    {
+      "id": "6",
+      "pergunta": "O atributo 'Utilidade' é parte da tríade CIA?",
+      "alternativas": ["Sim", "Não"],
+      "respostaCorreta": "Não"
+    },
+    {
+      "id": "7",
+      "pergunta": "Qual dos seguintes atributos é comum à tríade CIA e ao Hexagrama Parkeriano?",
+      "alternativas": [
+        "Confidencialidade",
+        "Posse/Controle",
+        "Utilidade",
+        "Autenticidade"
+      ],
+      "respostaCorreta": "Confidencialidade"
+    },
+    {
+      "id": "8",
+      "pergunta": "A tríade CIA é composta por quais atributos?",
+      "alternativas": [
+        "Confidencialidade, Integridade, Disponibilidade",
+        "Confidencialidade, Integridade, Autenticidade",
+        "Posse/Controle, Utilidade, Autenticidade",
+        "Confidencialidade, Disponibilidade, Utilidade"
+      ],
+      "respostaCorreta": "Confidencialidade, Integridade, Disponibilidade"
+    },
+    {
+      "id": "9",
+      "pergunta": "O atributo 'Posse/Controle' foi proposto por Parker?",
+      "alternativas": ["Sim", "Não"],
+      "respostaCorreta": "Sim"
+    },
+    {
+      "id": "10",
+      "pergunta": "Qual é a principal diferença entre a tríade CIA e o Hexagrama Parkeriano?",
+      "alternativas": [
+        "A tríade CIA tem mais atributos",
+        "O Hexagrama Parkeriano adiciona atributos como Posse/Controle, Utilidade e Autenticidade",
+        "A tríade CIA não inclui Confidencialidade",
+        "O Hexagrama Parkeriano não inclui Disponibilidade"
+      ],
+      "respostaCorreta": "O Hexagrama Parkeriano adiciona atributos como Posse/Controle, Utilidade e Autenticidade"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "name": "Princípios de Segurança da Informação e Hexagrama Parkeriano",
+  "category": "Segurança da Informação",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "O que o princípio da Confidencialidade visa principalmente evitar?",
+      "alternativas": [
+        "A alteração não autorizada da informação",
+        "A indisponibilidade da informação no momento necessário",
+        "A visualização não autorizada da informação",
+        "A perda de utilidade dos dados"
+      ],
+      "respostaCorreta": "A visualização não autorizada da informação"
+    },
+    {
+      "id": "2",
+      "pergunta": "De acordo com a classificação das informações, como são denominadas aquelas cuja publicação ou perda pode ser 'desastrosa para os negócios'?",
+      "alternativas": [
+        "Públicas",
+        "Internas",
+        "Confidenciais",
+        "Secretas"
+      ],
+      "respostaCorreta": "Secretas"
+    },
+    {
+      "id": "3",
+      "pergunta": "Qual princípio é violado quando informações deixam de estar acessíveis no momento necessário às atividades do negócio?",
+      "alternativas": [
+        "Confidencialidade",
+        "Integridade",
+        "Disponibilidade",
+        "Autenticidade"
+      ],
+      "respostaCorreta": "Disponibilidade"
+    },
+    {
+      "id": "4",
+      "pergunta": "Donn B. Parker propôs o Hexagrama Parkeriano para superar as limitações de qual modelo tradicional?",
+      "alternativas": [
+        "Modelo de Classificação de Dados",
+        "Tríade CIA (Confidencialidade, Integridade e Disponibilidade)",
+        "Modelo de Segurança em Camadas",
+        "Princípio do Menor Privilégio"
+      ],
+      "respostaCorreta": "Tríade CIA (Confidencialidade, Integridade e Disponibilidade)"
+    },
+    {
+      "id": "5",
+      "pergunta": "Um ataque de ransomware que criptografa os dados da vítima e exige resgate para devolver o controle ilustra principalmente a violação de qual atributo do Hexagrama Parkeriano?",
+      "alternativas": [
+        "Utilidade",
+        "Autenticidade",
+        "Posse/Controle",
+        "Confidencialidade"
+      ],
+      "respostaCorreta": "Posse/Controle"
+    },
+    {
+      "id": "6",
+      "pergunta": "Quando dados criptografados perdem sua chave de decriptação, tornando-se inúteis, qual princípio do Hexagrama Parkeriano é violado?",
+      "alternativas": [
+        "Autenticidade",
+        "Utilidade",
+        "Posse/Controle",
+        "Integridade"
+      ],
+      "respostaCorreta": "Utilidade"
+    },
+    {
+      "id": "7",
+      "pergunta": "A autenticidade, no Hexagrama Parkeriano, está relacionada principalmente com:",
+      "alternativas": [
+        "O controle físico sobre a informação",
+        "A genuinidade e validade da informação",
+        "A prontidão de acesso à informação",
+        "A prevenção de visualização não autorizada"
+      ],
+      "respostaCorreta": "A genuinidade e validade da informação"
+    },
+    {
+      "id": "8",
+      "pergunta": "Qual das seguintes situações caracteriza uma violação de integridade?",
+      "alternativas": [
+        "Um relatório confidencial é acessado por pessoa não autorizada",
+        "Os valores financeiros em um banco de dados são alterados fraudulentamente",
+        "Um servidor fica inacessível durante o horário comercial",
+        "Um backup é criptografado sem que a chave seja preservada"
+      ],
+      "respostaCorreta": "Os valores financeiros em um banco de dados são alterados fraudulentamente"
+    },
+    {
+      "id": "9",
+      "pergunta": "Segundo Parker, a perda de controle sobre os dados, mesmo sem acesso ou modificação não autorizada, representa uma vulnerabilidade relacionada a qual atributo?",
+      "alternativas": [
+        "Confidencialidade",
+        "Utilidade",
+        "Autenticidade",
+        "Posse/Controle"
+      ],
+      "respostaCorreta": "Posse/Controle"
+    },
+    {
+      "id": "10",
+      "pergunta": "A verificação da identidade de um usuário por meio de autenticação multifator está diretamente relacionada a qual princípio do Hexagrama Parkeriano?",
+      "alternativas": [
+        "Utilidade",
+        "Autenticidade",
+        "Posse/Controle",
+        "Disponibilidade"
+      ],
+      "respostaCorreta": "Autenticidade"
+    }
+  ]
+}

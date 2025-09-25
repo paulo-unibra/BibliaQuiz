@@ -1,0 +1,226 @@
+{
+  "name": "CERT.br e Gestão de Riscos em Segurança da Informação",
+  "category": "Segurança da Informação",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "O que é o CERT.BR?",
+      "alternativas": [
+        "Centro de Estudos, Resposta e Tratamento de Incidentes de Segurança no Brasil",
+        "Centro de Estudos de Redes e Telecomunicações",
+        "Comitê de Estudos de Redes Técnicas",
+        "Centro de Estudo de Redes e Tecnologia do Brasil"
+      ],
+      "respostaCorreta": "Centro de Estudos, Resposta e Tratamento de Incidentes de Segurança no Brasil"
+    },
+    {
+      "id": "2",
+      "pergunta": "Quem mantém o CERT.BR?",
+      "alternativas": [
+        "Polícia Federal",
+        "NIC.Br do Comitê Gestor da Internet no Brasil (CGI.Br)",
+        "Ministério da Justiça",
+        "ONU"
+      ],
+      "respostaCorreta": "NIC.Br do Comitê Gestor da Internet no Brasil (CGI.Br)"
+    },
+    {
+      "id": "3",
+      "pergunta": "Qual é a missão do CERT.BR?",
+      "alternativas": [
+        "Reduzir custos de operação das redes",
+        "Aumentar os níveis de segurança e de capacidade de tratamento de incidentes das redes conectadas à internet no Brasil",
+        "Criar leis contra crimes virtuais",
+        "Monitorar redes internacionais"
+      ],
+      "respostaCorreta": "Aumentar os níveis de segurança e de capacidade de tratamento de incidentes das redes conectadas à internet no Brasil"
+    },
+    {
+      "id": "4",
+      "pergunta": "Qual é o público do CERT.BR?",
+      "alternativas": [
+        "Somente órgãos do governo",
+        "Qualquer rede que use recursos administrados pelo NIC.br no Brasil",
+        "Somente empresas privadas de grande porte",
+        "Somente provedores internacionais"
+      ],
+      "respostaCorreta": "Qualquer rede que use recursos administrados pelo NIC.br no Brasil"
+    },
+    {
+      "id": "5",
+      "pergunta": "O CERT.BR oferece apoio para quais equipes?",
+      "alternativas": [
+        "Computer Security Incident Reponse Team (CSIRTs)",
+        "Computer Systems International Resources Team",
+        "Centros de Serviços de Internet Regionais",
+        "Comitês de Segurança Internacional"
+      ],
+      "respostaCorreta": "Computer Security Incident Reponse Team (CSIRTs)"
+    },
+    {
+      "id": "6",
+      "pergunta": "O CERT.BR é considerado um CSIRT de que tipo?",
+      "alternativas": [
+        "De primeiro recurso",
+        "De último recurso",
+        "Exclusivo para empresas privadas",
+        "Exclusivo para órgãos governamentais"
+      ],
+      "respostaCorreta": "De último recurso"
+    },
+    {
+      "id": "7",
+      "pergunta": "O que é uma ameaça?",
+      "alternativas": [
+        "Uma falha em sistemas",
+        "Uma circunstância, ação ou evento que pode levar à quebra de segurança",
+        "Um impacto ao negócio",
+        "Um controle de segurança"
+      ],
+      "respostaCorreta": "Uma circunstância, ação ou evento que pode levar à quebra de segurança"
+    },
+    {
+      "id": "8",
+      "pergunta": "O que é uma vulnerabilidade?",
+      "alternativas": [
+        "Uma tentativa de ataque",
+        "Um resultado de desastre",
+        "Fragilidade nos ativos que os expõem a ameaças",
+        "Uma ferramenta de segurança"
+      ],
+      "respostaCorreta": "Fragilidade nos ativos que os expõem a ameaças"
+    },
+    {
+      "id": "9",
+      "pergunta": "O que é um incidente ou ataque?",
+      "alternativas": [
+        "Uma tentativa ou sucesso de uma ameaça em explorar uma vulnerabilidade",
+        "Uma falha técnica",
+        "Um impacto sem consequência",
+        "Um erro humano"
+      ],
+      "respostaCorreta": "Uma tentativa ou sucesso de uma ameaça em explorar uma vulnerabilidade"
+    },
+    {
+      "id": "10",
+      "pergunta": "O que é um desastre em segurança da informação?",
+      "alternativas": [
+        "Um erro de programação",
+        "Resultado do sucesso de um ataque",
+        "Uma falha temporária",
+        "Um evento sem impacto"
+      ],
+      "respostaCorreta": "Resultado do sucesso de um ataque"
+    },
+    {
+      "id": "11",
+      "pergunta": "Como o risco é definido em segurança da informação?",
+      "alternativas": [
+        "Probabilidade de um backup falhar",
+        "Probabilidade de ameaças e vulnerabilidades levarem a desastres",
+        "Probabilidade de auditoria ocorrer",
+        "Probabilidade de sistemas funcionarem corretamente"
+      ],
+      "respostaCorreta": "Probabilidade de ameaças e vulnerabilidades levarem a desastres"
+    },
+    {
+      "id": "12",
+      "pergunta": "Qual é a fórmula apresentada para risco?",
+      "alternativas": [
+        "risco = ameaças + vulnerabilidades",
+        "risco = ameaças × vulnerabilidades",
+        "risco = ameaças ÷ vulnerabilidades",
+        "risco = ameaças - vulnerabilidades"
+      ],
+      "respostaCorreta": "risco = ameaças × vulnerabilidades"
+    },
+    {
+      "id": "13",
+      "pergunta": "A determinação do risco envolve avaliar:",
+      "alternativas": [
+        "Somente o impacto ao negócio",
+        "A possibilidade de exploração da vulnerabilidade, o impacto ao negócio e a efetividade de controles",
+        "Apenas a magnitude do desastre",
+        "Somente o custo do controle"
+      ],
+      "respostaCorreta": "A possibilidade de exploração da vulnerabilidade, o impacto ao negócio e a efetividade de controles"
+    },
+    {
+      "id": "14",
+      "pergunta": "Os riscos são considerados:",
+      "alternativas": [
+        "Elimináveis",
+        "Inevitáveis",
+        "Sempre baixos",
+        "Sempre altos"
+      ],
+      "respostaCorreta": "Inevitáveis"
+    },
+    {
+      "id": "15",
+      "pergunta": "As abordagens de segurança podem ser classificadas como:",
+      "alternativas": [
+        "Preventiva e corretiva",
+        "Reativa e proativa",
+        "Manual e automática",
+        "Interna e externa"
+      ],
+      "respostaCorreta": "Reativa e proativa"
+    },
+    {
+      "id": "16",
+      "pergunta": "Na abordagem reativa, a ação ocorre:",
+      "alternativas": [
+        "Antes do incidente",
+        "Durante o incidente",
+        "Após o incidente",
+        "Independente do incidente"
+      ],
+      "respostaCorreta": "Após o incidente"
+    },
+    {
+      "id": "17",
+      "pergunta": "Na abordagem proativa, a ação ocorre:",
+      "alternativas": [
+        "Antes que o incidente ocorra",
+        "Somente após auditoria",
+        "Quando o desastre já aconteceu",
+        "Durante o ataque"
+      ],
+      "respostaCorreta": "Antes que o incidente ocorra"
+    },
+    {
+      "id": "18",
+      "pergunta": "A abordagem reativa tende a ser:",
+      "alternativas": [
+        "Mais barata a longo prazo",
+        "Mais cara ao menos no longo prazo",
+        "Igual em custo à proativa",
+        "Impraticável"
+      ],
+      "respostaCorreta": "Mais cara ao menos no longo prazo"
+    },
+    {
+      "id": "19",
+      "pergunta": "O objetivo da mitigação de riscos é:",
+      "alternativas": [
+        "Eliminar completamente os riscos",
+        "Reduzir os riscos a nível aceitável com mínimo impacto sobre os recursos e metas",
+        "Ignorar os riscos menores",
+        "Transferir todos os riscos ao governo"
+      ],
+      "respostaCorreta": "Reduzir os riscos a nível aceitável com mínimo impacto sobre os recursos e metas"
+    },
+    {
+      "id": "20",
+      "pergunta": "Quando pode-se aceitar riscos?",
+      "alternativas": [
+        "Sempre que possível",
+        "Quando mitigar for mais caro que o desastre",
+        "Quando os riscos forem altos",
+        "Quando não houver controles disponíveis"
+      ],
+      "respostaCorreta": "Quando mitigar for mais caro que o desastre"
+    }
+  ]
+}

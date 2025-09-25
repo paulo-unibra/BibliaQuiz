@@ -1,0 +1,160 @@
+{
+  "name": "Ciclo de Vida dos Dados",
+  "category": "LGPD",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "Na fase de coleta, como os dados eram tratados antes da LGPD?",
+      "alternativas": [
+        "Apenas coletados com autorização judicial",
+        "Coletados de forma indiscriminada",
+        "Coletados somente mediante contrato formal",
+        "Coletados apenas para pesquisas acadêmicas"
+      ],
+      "respostaCorreta": "Coletados de forma indiscriminada"
+    },
+    {
+      "id": "2",
+      "pergunta": "O que a LGPD determina em relação à coleta de dados pessoais?",
+      "alternativas": [
+        "Que os dados podem ser coletados sem restrições",
+        "Que a coleta só pode ser feita por órgãos públicos",
+        "Que os dados coletados devem obedecer ao princípio da necessidade e finalidade",
+        "Que apenas dados sensíveis podem ser coletados"
+      ],
+      "respostaCorreta": "Que os dados coletados devem obedecer ao princípio da necessidade e finalidade"
+    },
+    {
+      "id": "3",
+      "pergunta": "Antes da LGPD, como os dados podiam ser processados?",
+      "alternativas": [
+        "Somente com consentimento",
+        "Apenas por empresas estrangeiras",
+        "Sem um tratamento específico",
+        "Exclusivamente para marketing digital"
+      ],
+      "respostaCorreta": "Sem um tratamento específico"
+    },
+    {
+      "id": "4",
+      "pergunta": "O que a LGPD exige para o processamento de dados?",
+      "alternativas": [
+        "Que seja feito apenas por grandes empresas",
+        "Que seja enquadrado no Art. 7º da LGPD",
+        "Que seja restrito a dados biométricos",
+        "Que seja feito sem armazenar registros"
+      ],
+      "respostaCorreta": "Que seja enquadrado no Art. 7º da LGPD"
+    },
+    {
+      "id": "5",
+      "pergunta": "Como era a análise de dados antes da LGPD?",
+      "alternativas": [
+        "Focada apenas em pesquisas acadêmicas",
+        "Feita para conhecer o mercado e perfil das pessoas, sem considerar finalidades específicas",
+        "Limitada apenas a informações de clientes ativos",
+        "Realizada somente em órgãos governamentais"
+      ],
+      "respostaCorreta": "Feita para conhecer o mercado e perfil das pessoas, sem considerar finalidades específicas"
+    },
+    {
+      "id": "6",
+      "pergunta": "Segundo a LGPD, a análise de dados deve:",
+      "alternativas": [
+        "Ser feita sem restrições de finalidade",
+        "Levar em consideração a finalidade da coleta e princípios do tratamento",
+        "Ser obrigatoriamente realizada por auditores independentes",
+        "Ser usada exclusivamente para estratégias de marketing"
+      ],
+      "respostaCorreta": "Levar em consideração a finalidade da coleta e princípios do tratamento"
+    },
+    {
+      "id": "7",
+      "pergunta": "Como ocorria o compartilhamento de dados antes da LGPD?",
+      "alternativas": [
+        "Com auditoria obrigatória",
+        "Sempre com consentimento dos titulares",
+        "Sem necessidade de consentimento dos titulares",
+        "Apenas entre empresas do mesmo grupo econômico"
+      ],
+      "respostaCorreta": "Sem necessidade de consentimento dos titulares"
+    },
+    {
+      "id": "8",
+      "pergunta": "De acordo com a LGPD, o compartilhamento de dados só pode ocorrer:",
+      "alternativas": [
+        "Mediante pagamento de taxas governamentais",
+        "Com consentimento dos titulares",
+        "Apenas em casos de emergência",
+        "Entre empresas privadas sem registro oficial"
+      ],
+      "respostaCorreta": "Com consentimento dos titulares"
+    },
+    {
+      "id": "9",
+      "pergunta": "Antes da LGPD, como funcionava o armazenamento dos dados?",
+      "alternativas": [
+        "Armazenados por tempo indeterminado",
+        "Armazenados somente por 5 anos",
+        "Deletados após 30 dias",
+        "Mantidos apenas em servidores públicos"
+      ],
+      "respostaCorreta": "Armazenados por tempo indeterminado"
+    },
+    {
+      "id": "10",
+      "pergunta": "O que a LGPD determina sobre o armazenamento de dados?",
+      "alternativas": [
+        "Que podem ser armazenados indefinidamente",
+        "Que devem ser mantidos apenas até atingirem sua finalidade ou deixarem de ser necessários",
+        "Que sejam obrigatoriamente criptografados, sem limite de tempo",
+        "Que só empresas estrangeiras podem armazená-los"
+      ],
+      "respostaCorreta": "Que devem ser mantidos apenas até atingirem sua finalidade ou deixarem de ser necessários"
+    },
+    {
+      "id": "11",
+      "pergunta": "Antes da LGPD, como era a reutilização de dados pessoais?",
+      "alternativas": [
+        "Permitida apenas uma vez",
+        "Feita sem necessidade de consentimento",
+        "Vedada em qualquer situação",
+        "Restrita a pesquisas científicas"
+      ],
+      "respostaCorreta": "Feita sem necessidade de consentimento"
+    },
+    {
+      "id": "12",
+      "pergunta": "Segundo a LGPD, para reutilizar dados pessoais em uma nova finalidade é necessário:",
+      "alternativas": [
+        "Nenhuma medida adicional",
+        "Somente registro em cartório",
+        "Novo consentimento dos titulares",
+        "Aprovação de uma autoridade pública"
+      ],
+      "respostaCorreta": "Novo consentimento dos titulares"
+    },
+    {
+      "id": "13",
+      "pergunta": "Antes da LGPD, o que acontecia com os dados pessoais ao fim do tratamento?",
+      "alternativas": [
+        "Eram eliminados imediatamente",
+        "Eram transferidos para outra empresa",
+        "Permaneciam armazenados sem obrigação de exclusão",
+        "Eram convertidos em dados anônimos automaticamente"
+      ],
+      "respostaCorreta": "Permaneciam armazenados sem obrigação de exclusão"
+    },
+    {
+      "id": "14",
+      "pergunta": "O que a LGPD determina sobre a eliminação de dados?",
+      "alternativas": [
+        "Devem ser eliminados após o término de seu tratamento",
+        "Só podem ser eliminados com ordem judicial",
+        "Devem ser armazenados por no mínimo 20 anos",
+        "A eliminação é facultativa para empresas privadas"
+      ],
+      "respostaCorreta": "Devem ser eliminados após o término de seu tratamento"
+    }
+  ]
+}

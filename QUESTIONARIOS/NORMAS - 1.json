@@ -1,0 +1,83 @@
+{
+  "name": "Aspectos Legais da Segurança da Informação",
+  "category": "Segurança da Informação",
+  "questions": [
+    {
+      "id": "1",
+      "pergunta": "O que estabelece a Lei Carolina Dieckmann (Lei 12.737/2012)?",
+      "alternativas": [
+        "Regras para tratamento de dados pessoais",
+        "Definição de direitos e deveres na internet",
+        "Tipificação de crimes cibernéticos",
+        "Criação da Autoridade Nacional de Proteção de Dados"
+      ],
+      "respostaCorreta": "Tipificação de crimes cibernéticos"
+    },
+    {
+      "id": "2",
+      "pergunta": "Qual é o principal objetivo do Marco Civil da Internet (Lei 12.965/2014)?",
+      "alternativas": [
+        "Regulamentar a privacidade dos usuários",
+        "Estabelecer direitos e deveres no uso da internet",
+        "Criar regras específicas para crimes digitais",
+        "Regular o uso de cookies e publicidade online"
+      ],
+      "respostaCorreta": "Estabelecer direitos e deveres no uso da internet"
+    },
+    {
+      "id": "3",
+      "pergunta": "Quais são alguns dos pontos relevantes do Marco Civil da Internet?",
+      "alternativas": [
+        "Neutralidade da rede e privacidade",
+        "Exclusivamente crimes de invasão de dispositivos",
+        "Apenas questões de direitos autorais",
+        "Somente regras para publicidade digital"
+      ],
+      "respostaCorreta": "Neutralidade da rede e privacidade"
+    },
+    {
+      "id": "4",
+      "pergunta": "O que regulamenta a Lei Geral de Proteção de Dados (Lei 13.709/2018)?",
+      "alternativas": [
+        "Tratamento de dados pessoais",
+        "Neutralidade da rede",
+        "Criação de crimes cibernéticos",
+        "Uso de assinaturas digitais"
+      ],
+      "respostaCorreta": "Tratamento de dados pessoais"
+    },
+    {
+      "id": "5",
+      "pergunta": "O que são considerados dados sensíveis pela LGPD?",
+      "alternativas": [
+        "Endereço residencial e profissão",
+        "Nome, RG e CPF",
+        "Origem racial, opinião política, saúde, vida sexual, biometria",
+        "Histórico de compras online"
+      ],
+      "respostaCorreta": "Origem racial, opinião política, saúde, vida sexual, biometria"
+    },
+    {
+      "id": "6",
+      "pergunta": "Quem é o órgão responsável por fiscalizar o cumprimento da LGPD?",
+      "alternativas": [
+        "CGI.br",
+        "CERT.br",
+        "ANPD",
+        "NIC.br"
+      ],
+      "respostaCorreta": "ANPD"
+    },
+    {
+      "id": "7",
+      "pergunta": "A LGPD exige que o tratamento de dados pessoais seja baseado em qual princípio-chave?",
+      "alternativas": [
+        "Transparência",
+        "Gratuidade",
+        "Sigilo bancário",
+        "Neutralidade da rede"
+      ],
+      "respostaCorreta": "Transparência"
+    }
+  ]
+}
