@@ -22,12 +22,16 @@ type Pergunta = {
   pergunta: string;
   alternativas: string[];
   respostaCorreta: string;
+  nivel?: 'facil' | 'medio' | 'dificil';
 };
 
 type Stage = 'catalog' | 'loading' | 'start' | 'quiz' | 'result' | 'dashboard';
 
-// Duração do timer por questão (ms)
-const DURATION_MS = 20000;
+const DURATION_BY_LEVEL = {
+  facil: 30000, 
+  medio: 20000, 
+  dificil: 15000,
+};
 
 // Util: embaralhar array (Fisher-Yates)
 function shuffle<T>(input: T[]): T[] {
@@ -42,11 +46,52 @@ function shuffle<T>(input: T[]): T[] {
 // Remove sufixo .json (case-insensitive) para exibição
 const toDisplayName = (name: string) => name.replace(/\.json$/i, '');
 
+// Classifica o nível da questão baseado no tamanho do texto
+function classificarNivel(pergunta: string): 'facil' | 'medio' | 'dificil' {
+  const tamanho = pergunta.trim().length;
+  if (tamanho > 150) return 'facil';    // Textos longos = mais fácil, mais tempo
+  if (tamanho > 80) return 'medio';     // Textos médios = tempo médio
+  return 'dificil';                     // Textos curtos = mais difícil, menos tempo
+}
+
 // Prepara perguntas embaralhando a ordem e também as alternativas,
 // balanceando a posição da resposta correta entre A/B/C/D para não concentrar.
+// Divide as questões em 3 blocos iguais: fácil -> médio -> difícil
 function prepareQuestions(base: Pergunta[]): Pergunta[] {
-  const qs = shuffle(base);
-  if (qs.length === 0) return qs;
+  if (base.length === 0) return base;
+  
+  // Classifica todas as questões por nível baseado no tamanho do texto
+  const questoesComNivel = base.map(q => ({
+    ...q,
+    nivel: classificarNivel(q.pergunta)
+  }));
+  
+  // Embaralha todas as questões primeiro
+  const questoesEmbaralhadas = shuffle(questoesComNivel);
+  
+  // Calcula quantas questões por bloco (dividindo igualmente)
+  const total = questoesEmbaralhadas.length;
+  const questoesPorBloco = Math.floor(total / 3);
+  const resto = total % 3;
+  
+  // Distribui as questões em 3 blocos de tamanhos iguais (ou quase iguais)
+  const blocoFacil: Pergunta[] = [];
+  const blocoMedio: Pergunta[] = [];
+  const blocoDificil: Pergunta[] = [];
+  
+  questoesEmbaralhadas.forEach((q, index) => {
+    if (index < questoesPorBloco + (resto > 0 ? 1 : 0)) {
+      blocoFacil.push({ ...q, nivel: 'facil' });
+    } else if (index < questoesPorBloco * 2 + (resto > 1 ? 1 : 0) + (resto > 0 ? 1 : 0)) {
+      blocoMedio.push({ ...q, nivel: 'medio' });
+    } else {
+      blocoDificil.push({ ...q, nivel: 'dificil' });
+    }
+  });
+  
+  // Organiza na ordem: fácil -> médio -> difícil
+  const qs = [...blocoFacil, ...blocoMedio, ...blocoDificil];
+  
   const maxOptions = Math.max(...qs.map(q => q.alternativas?.length || 0)) || 4;
 
   // Cria sequência de posições alvo (0..maxOptions-1) repetida e embaralhada
@@ -89,7 +134,7 @@ export default function HomeScreen() {
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
   const lockedRef = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [tempoRestante, setTempoRestante] = useState<number>(DURATION_MS / 1000);
+  const [tempoRestante, setTempoRestante] = useState<number>(20);
   const loadingTokenRef = useRef(0);
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
@@ -109,20 +154,24 @@ export default function HomeScreen() {
 
   const startTimer = useCallback(() => {
     const H = containerHeightRef.current;
-    if (!H) return;
+    if (!H || !perguntaAtual) return;
+    
+    const nivel = perguntaAtual.nivel || 'medio';
+    const duration = DURATION_BY_LEVEL[nivel];
+    
     aguaAltura.setValue(H);
     animationRef.current?.stop();
     animationRef.current = Animated.timing(aguaAltura, {
       toValue: 0,
-      duration: DURATION_MS,
+      duration,
       easing: Easing.linear,
       useNativeDriver: false,
     });
     lockedRef.current = false;
     // inicia contador regressivo em segundos
     if (intervalRef.current) clearInterval(intervalRef.current);
-    setTempoRestante(DURATION_MS / 1000);
-    const end = Date.now() + DURATION_MS;
+    setTempoRestante(duration / 1000);
+    const end = Date.now() + duration;
     intervalRef.current = setInterval(() => {
       const leftMs = end - Date.now();
       const leftS = Math.ceil(leftMs / 1000);
@@ -156,7 +205,7 @@ export default function HomeScreen() {
         setTempoRestante(0);
       }
     });
-  }, [aguaAltura, stage, perguntas.length]);
+  }, [aguaAltura, stage, perguntas.length, perguntaAtual]);
 
   const pararTimer = useCallback(() => {
     animationRef.current?.stop();
@@ -634,6 +683,20 @@ export default function HomeScreen() {
               <View style={[styles.pill, styles.pillQuestao]}>
                 <Text style={styles.pillTexto}>Questão {indice + 1} de {perguntas.length}</Text>
               </View>
+              {perguntaAtual?.nivel && (
+                <View style={[
+                  styles.pill, 
+                  perguntaAtual.nivel === 'facil' && styles.pillFacil,
+                  perguntaAtual.nivel === 'medio' && styles.pillMedio,
+                  perguntaAtual.nivel === 'dificil' && styles.pillDificil
+                ]}>
+                  <Text style={styles.pillTexto}>
+                    {perguntaAtual.nivel === 'facil' && '🟢 Fácil'}
+                    {perguntaAtual.nivel === 'medio' && '🟡 Médio'}
+                    {perguntaAtual.nivel === 'dificil' && '🔴 Difícil'}
+                  </Text>
+                </View>
+              )}
             </View>
 
             <View style={styles.cardPergunta}>
@@ -908,6 +971,9 @@ const styles = StyleSheet.create({
   pillTexto: { color: '#0f172a', fontWeight: '700' },
   pillTempo: { backgroundColor: '#dbeafe' },
   pillQuestao: { backgroundColor: '#f3e8ff' },
+  pillFacil: { backgroundColor: '#dcfce7' },
+  pillMedio: { backgroundColor: '#fef3c7' },
+  pillDificil: { backgroundColor: '#fee2e2' },
   cardPergunta: {
     backgroundColor: 'white',
     borderRadius: 12,
