@@ -1,5 +1,10 @@
+import ProfileScreen from '@/components/ProfileScreen';
+import RankingScreen from '@/components/RankingScreen';
 import { fetchFileJson, listFolderFiles } from '@/lib/driveApi';
+import { auth } from '@/lib/firebase';
+import { atualizarScore, authenticateAnonymously, getCurrentUserProfile, UserProfile } from '@/lib/userService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -25,7 +30,7 @@ type Pergunta = {
   nivel?: 'facil' | 'medio' | 'dificil';
 };
 
-type Stage = 'catalog' | 'loading' | 'start' | 'quiz' | 'result' | 'dashboard';
+type Stage = 'catalog' | 'loading' | 'start' | 'quiz' | 'result' | 'dashboard' | 'profile' | 'ranking';
 
 const DURATION_BY_LEVEL = {
   facil: 30000, 
@@ -170,6 +175,7 @@ export default function HomeScreen() {
     alternativaSelecionada: string;
     respostaCorreta: string;
   } | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const loadingTokenRef = useRef(0);
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
@@ -186,6 +192,29 @@ export default function HomeScreen() {
   const aprovado = nota >= 6;
 
   // N/A: upload JSON removido
+
+  const finalizarQuiz = useCallback(async () => {
+    // Calcular pontuação final
+    const pontuacaoFinal = Math.round((acertos / totalPerguntas) * 100);
+    
+    // Atualizar score no Firebase se o usuário tiver perfil
+    if (userProfile && pontuacaoFinal > 0) {
+      try {
+        const novoScore = userProfile.score + pontuacaoFinal;
+        await atualizarScore(novoScore);
+        
+        // Atualizar perfil local
+        setUserProfile({
+          ...userProfile,
+          score: novoScore
+        });
+      } catch (error) {
+        console.error('Erro ao atualizar score:', error);
+      }
+    }
+    
+    setStage('result');
+  }, [acertos, totalPerguntas, userProfile]);
 
   const startTimer = useCallback(() => {
     const H = containerHeightRef.current;
@@ -226,7 +255,7 @@ export default function HomeScreen() {
           setIndice((i) => {
             const proximo = i + 1;
             if (proximo >= perguntas.length) {
-              setStage('result');
+              finalizarQuiz();
               return i;
             }
             return proximo;
@@ -240,7 +269,7 @@ export default function HomeScreen() {
         setTempoRestante(0);
       }
     });
-  }, [aguaAltura, stage, perguntas.length, perguntaAtual]);
+  }, [aguaAltura, stage, perguntas.length, perguntaAtual, finalizarQuiz]);
 
   const pararTimer = useCallback(() => {
     animationRef.current?.stop();
@@ -255,12 +284,12 @@ export default function HomeScreen() {
     setIndice((i) => {
       const proximo = i + 1;
       if (proximo >= perguntas.length) {
-        setStage('result');
+        finalizarQuiz();
         return i;
       }
       return proximo;
     });
-  }, [perguntas.length]);
+  }, [perguntas.length, finalizarQuiz]);
 
   useEffect(() => {
     if (stage === 'quiz' && containerHeightRef.current > 0) {
@@ -276,6 +305,38 @@ export default function HomeScreen() {
       }
     };
   }, [indice, stage, startTimer]);
+
+  // Inicializar usuário com monitoramento de estado de autenticação
+  useEffect(() => {
+    console.log('🔥 Configurando monitoramento de autenticação...');
+    
+    const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
+      console.log('🔥 Estado de autenticação mudou:', user ? `UID: ${user.uid}` : 'Não autenticado');
+      
+      try {
+        if (user) {
+          // Usuário já está autenticado - buscar perfil
+          console.log('🔥 Usuário autenticado, buscando perfil...');
+          const profile = await getCurrentUserProfile();
+          console.log('🔥 Perfil carregado:', profile);
+          setUserProfile(profile);
+        } else {
+          // Não há usuário - iniciar autenticação anônima
+          console.log('🔥 Nenhum usuário encontrado, iniciando autenticação anônima...');
+          await authenticateAnonymously();
+          // O listener será chamado novamente quando a autenticação completar
+        }
+      } catch (error) {
+        console.error('❌ Erro no monitoramento de autenticação:', error);
+      }
+    });
+
+    // Cleanup function para remover o listener
+    return () => {
+      console.log('🔥 Removendo monitoramento de autenticação');
+      unsubscribe();
+    };
+  }, []);
 
   const onLayoutContainer = (e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
@@ -628,6 +689,20 @@ export default function HomeScreen() {
 
         {stage === 'catalog' && (
           <>
+          <View style={styles.headerActions}>
+            <Pressable 
+              onPress={() => setStage('profile')}
+              style={[styles.actionButton, styles.profileButton]}
+            >
+              <Text style={styles.actionButtonText}>👤 Perfil</Text>
+            </Pressable>
+            <Pressable 
+              onPress={() => setStage('ranking')}
+              style={[styles.actionButton, styles.rankingButton]}
+            >
+              <Text style={styles.actionButtonText}>🏆 Ranking</Text>
+            </Pressable>
+          </View>
           <ScrollView contentContainerStyle={[styles.uploadWrapper, { paddingBottom: 90 + insets.bottom }]}> 
             <Text style={styles.titulo}>Catálogo de Questionários</Text>
             <View style={styles.searchWrapper}>
@@ -896,6 +971,24 @@ export default function HomeScreen() {
             </Pressable>
           </ScrollView>
         )}
+
+        {/* Tela de Perfil */}
+        {stage === 'profile' && (
+          <ProfileScreen 
+            onProfileComplete={(profile) => {
+              setUserProfile(profile);
+              setStage('catalog');
+            }}
+            onBack={() => setStage('catalog')}
+          />
+        )}
+
+        {/* Tela de Ranking */}
+        {stage === 'ranking' && (
+          <RankingScreen 
+            onBack={() => setStage('catalog')}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -1125,6 +1218,36 @@ const styles = StyleSheet.create({
   altBotaoIncorreto: {
     backgroundColor: '#ef4444',
     borderColor: '#dc2626',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
+  },
+  actionButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  profileButton: {
+    backgroundColor: '#3b82f6',
+    borderColor: '#2563eb',
+  },
+  rankingButton: {
+    backgroundColor: '#f59e0b',
+    borderColor: '#d97706',
+  },
+  actionButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
   },
   altTexto: {
     fontSize: 18,
