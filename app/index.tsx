@@ -627,9 +627,12 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', gap: 8 }}>
               <View style={[styles.pill, styles.pillTempo]}>
                 <Text style={styles.pillTexto}>Tempo: {tempoRestante}s</Text>
+              </View>
+              <View style={[styles.pill, styles.pillQuestao]}>
+                <Text style={styles.pillTexto}>Questão {indice + 1} de {perguntas.length}</Text>
               </View>
             </View>
 
@@ -904,6 +907,7 @@ const styles = StyleSheet.create({
   pillErro: { backgroundColor: '#fee2e2' },
   pillTexto: { color: '#0f172a', fontWeight: '700' },
   pillTempo: { backgroundColor: '#dbeafe' },
+  pillQuestao: { backgroundColor: '#f3e8ff' },
   cardPergunta: {
     backgroundColor: 'white',
     borderRadius: 12,
