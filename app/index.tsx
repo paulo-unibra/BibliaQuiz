@@ -165,6 +165,11 @@ export default function HomeScreen() {
   const lockedRef = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [tempoRestante, setTempoRestante] = useState<number>(20);
+  const [respostaFeedback, setRespostaFeedback] = useState<{
+    tipo: 'acerto' | 'erro';
+    alternativaSelecionada: string;
+    respostaCorreta: string;
+  } | null>(null);
   const loadingTokenRef = useRef(0);
 
   const perguntaAtual = useMemo(() => perguntas[indice], [indice, perguntas]);
@@ -246,6 +251,7 @@ export default function HomeScreen() {
   }, []);
 
   const avancarPergunta = useCallback(() => {
+    setRespostaFeedback(null); // Limpa o feedback ao avançar
     setIndice((i) => {
       const proximo = i + 1;
       if (proximo >= perguntas.length) {
@@ -288,11 +294,22 @@ export default function HomeScreen() {
     lockedRef.current = true;
     pararTimer();
     const correta = perguntaAtual?.respostaCorreta === alt;
+    
+    // Mostra o feedback imediatamente
+    setRespostaFeedback({
+      tipo: correta ? 'acerto' : 'erro',
+      alternativaSelecionada: alt,
+      respostaCorreta: perguntaAtual?.respostaCorreta || ''
+    });
+    
     if (correta) setAcertos((a) => a + 1);
     else setErros((e) => e + 1);
+    
+    // Aguarda 2 segundos antes de avançar
     setTimeout(() => {
+      setRespostaFeedback(null); // Limpa o feedback
       avancarPergunta();
-    }, 200);
+    }, 2000);
   };
 
   const iniciarQuiz = () => {
@@ -360,7 +377,6 @@ export default function HomeScreen() {
     return () => sub.remove();
   }, [handleHardwareBack]);
 
-  // Catálogo: carrega quando nesse estágio
   useEffect(() => {
     let cancelled = false;
     const run = async () => {
@@ -744,16 +760,37 @@ export default function HomeScreen() {
             </View>
 
             <View style={styles.alternativas}>
-              {perguntaAtual?.alternativas.map((alt) => (
-                <Pressable
-                  key={alt}
-                  style={({ pressed }) => [styles.altBotao, pressed && styles.altBotaoPressed]}
-                  onPress={() => selecionarAlternativa(alt)}
-                  android_ripple={{ color: '#dbeafe' }}
-                >
-                  <Text style={styles.altTexto}>{alt}</Text>
-                </Pressable>
-              ))}
+              {perguntaAtual?.alternativas.map((alt) => {
+                let feedbackStyle = null;
+                let textColor = '#0f172a'; // cor padrão
+                
+                if (respostaFeedback) {
+                  if (alt === respostaFeedback.respostaCorreta) {
+                    // Resposta correta sempre verde
+                    feedbackStyle = styles.altBotaoCorreto;
+                    textColor = 'white';
+                  } else if (alt === respostaFeedback.alternativaSelecionada && respostaFeedback.tipo === 'erro') {
+                    // Resposta selecionada incorreta fica vermelha
+                    feedbackStyle = styles.altBotaoIncorreto;
+                    textColor = 'white';
+                  }
+                }
+                
+                return (
+                  <Pressable
+                    key={alt}
+                    style={({ pressed }) => [
+                      styles.altBotao, 
+                      pressed && styles.altBotaoPressed,
+                      feedbackStyle
+                    ]}
+                    onPress={() => selecionarAlternativa(alt)}
+                    android_ripple={{ color: '#dbeafe' }}
+                  >
+                    <Text style={[styles.altTexto, { color: textColor }]}>{alt}</Text>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
         )}
@@ -1080,6 +1117,14 @@ const styles = StyleSheet.create({
   },
   altBotaoPressed: {
     backgroundColor: '#eff6ff',
+  },
+  altBotaoCorreto: {
+    backgroundColor: '#22c55e',
+    borderColor: '#16a34a',
+  },
+  altBotaoIncorreto: {
+    backgroundColor: '#ef4444',
+    borderColor: '#dc2626',
   },
   altTexto: {
     fontSize: 18,
